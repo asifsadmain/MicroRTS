@@ -9,51 +9,51 @@ import java.net.Socket;
  */
 public class MicroRTS {
 
-    public static void main(String args[]) throws Exception {
-
-        for (int i = args.length; i > 0; i--) {
-            if (args[i - 1].equals("-h")) {
-                System.out.println(GameSettings.getHelpMessage());
-                return;
-            }
-        }
-        
-        String configFile = "resources/config.properties";
-
-        for (int i = args.length; i > 0; i--) {
-            if (args[i - 1].equals("-f")) {
-                configFile = args[i];
-            }
-        }
-
-        GameSettings gameSettings;
-        try {
-            gameSettings = GameSettings.loadFromConfig(GameSettings.fetchConfig(configFile))
-                .overrideFromArgs(args);
-        } catch (java.io.FileNotFoundException ex) {
-            System.err.println(
-                "File " + configFile + " not found. Trying to initialize from command-line args.");
-            gameSettings = new GameSettings(args);
-        }
-
-        System.out.println(gameSettings);
-
-        switch (gameSettings.getLaunchMode()) {
-            case STANDALONE:
-            case HUMAN:
-                runStandAloneGame(gameSettings);
-                break;
-            case GUI:
-                FrontEnd.main(args);
-                break;
-            case SERVER:
-                startServer(gameSettings);
-                break;
-            case CLIENT:
-                startClient(gameSettings);
-                break;
-        }
-    }
+//    public static void main(String args[]) throws Exception {
+//
+//        for (int i = args.length; i > 0; i--) {
+//            if (args[i - 1].equals("-h")) {
+//                System.out.println(GameSettings.getHelpMessage());
+//                return;
+//            }
+//        }
+//
+//        String configFile = "resources/config.properties";
+//
+//        for (int i = args.length; i > 0; i--) {
+//            if (args[i - 1].equals("-f")) {
+//                configFile = args[i];
+//            }
+//        }
+//
+//        GameSettings gameSettings;
+//        try {
+//            gameSettings = GameSettings.loadFromConfig(GameSettings.fetchConfig(configFile))
+//                .overrideFromArgs(args);
+//        } catch (java.io.FileNotFoundException ex) {
+//            System.err.println(
+//                "File " + configFile + " not found. Trying to initialize from command-line args.");
+//            gameSettings = new GameSettings(args);
+//        }
+//
+//        System.out.println(gameSettings);
+//
+//        switch (gameSettings.getLaunchMode()) {
+//            case STANDALONE:
+//            case HUMAN:
+//                runStandAloneGame(gameSettings);
+//                break;
+//            case GUI:
+//                FrontEnd.main(args);
+//                break;
+//            case SERVER:
+//                startServer(gameSettings);
+//                break;
+//            case CLIENT:
+//                startClient(gameSettings);
+//                break;
+//        }
+//    }
 
     /**
      * Starts microRTS as a server instance.

@@ -1,0 +1,15 @@
+3600,S;For_S;S;S_S;S;S_S;S;C;Train;Worker;Right;7;S;For_S;S;C;Attack;LessHealthy;S;If_B_then_S;B;CanHarvest;S;C;MoveToUnit;Enemy;MostHealthy
+7200,S;S_S;S;For_S;S;C;Idle;S;S_S;S;For_S;S;S_S;S;C;Train;Worker;Up;100;S;If_B_then_S;B;HasUnitInOpponentRange;S;For_S;S;C;Build;Base;EnemyDir;50;S;For_S;S;S_S;S;C;Attack;LessHealthy;S;For_S;S;C;Harvest;4
+10800,S;S_S;S;For_S;S;C;Idle;S;S_S;S;For_S;S;S_S;S;C;Train;Worker;Up;100;S;If_B_then_S;B;HasUnitInOpponentRange;S;For_S;S;C;Build;Base;EnemyDir;50;S;For_S;S;S_S;S;C;Attack;LessHealthy;S;For_S;S;C;Harvest;4
+14400,S;S_S;S;For_S;S;C;Idle;S;S_S;S;For_S;S;S_S;S;C;Train;Worker;Up;100;S;If_B_then_S;B;HasUnitInOpponentRange;S;For_S;S;C;Build;Base;EnemyDir;50;S;For_S;S;S_S;S;C;Attack;LessHealthy;S;For_S;S;C;Harvest;4
+18000,S;S_S;S;For_S;S;S_S;S;C;Train;Light;Right;9;S;C;Idle;S;S_S;S;For_S;S;S_S;S;C;Train;Heavy;Down;20;S;For_S;S;C;Build;Barracks;EnemyDir;5;S;For_S;S;S_S;S;C;Attack;Weakest;S;For_S;S;C;Harvest;5
+21600,S;S_S;S;For_S;S;S_S;S;C;Train;Light;Right;9;S;C;Idle;S;S_S;S;For_S;S;S_S;S;C;Train;Heavy;Down;20;S;For_S;S;C;Build;Barracks;EnemyDir;5;S;For_S;S;S_S;S;C;Attack;Weakest;S;For_S;S;C;Harvest;5
+25200,S;S_S;S;For_S;S;S_S;S;C;Train;Light;Right;9;S;C;Idle;S;S_S;S;For_S;S;S_S;S;C;Train;Heavy;Down;20;S;For_S;S;C;Build;Barracks;EnemyDir;5;S;For_S;S;S_S;S;C;Attack;Weakest;S;For_S;S;C;Harvest;5
+28800,S;S_S;S;For_S;S;S_S;S;C;Train;Light;Right;9;S;C;Idle;S;S_S;S;For_S;S;S_S;S;C;Train;Heavy;Down;20;S;For_S;S;C;Build;Barracks;EnemyDir;5;S;For_S;S;S_S;S;C;Attack;Weakest;S;For_S;S;C;Harvest;5
+32400,S;S_S;S;S_S;S;For_S;S;S_S;S;C;Train;Worker;Right;5;S;C;Idle;S;For_S;S;S_S;S;S_S;S;C;Train;Light;Down;3;S;C;Train;Heavy;Down;10;S;For_S;S;C;Build;Barracks;EnemyDir;2;S;For_S;S;S_S;S;C;Attack;Strongest;S;For_S;S;C;Harvest;3
+36000,S;S_S;S;S_S;S;For_S;S;S_S;S;C;Train;Worker;Right;5;S;C;Idle;S;For_S;S;S_S;S;S_S;S;C;Train;Light;Down;3;S;C;Train;Heavy;Down;10;S;For_S;S;C;Build;Barracks;EnemyDir;2;S;For_S;S;S_S;S;C;Attack;Strongest;S;For_S;S;C;Harvest;3
+39600,S;S_S;S;S_S;S;For_S;S;S_S;S;C;Train;Worker;Right;5;S;C;Idle;S;For_S;S;S_S;S;S_S;S;C;Train;Light;Down;3;S;C;Train;Heavy;Down;10;S;For_S;S;C;Build;Barracks;EnemyDir;2;S;For_S;S;S_S;S;C;Attack;Strongest;S;For_S;S;C;Harvest;3
+43200,S;S_S;S;S_S;S;For_S;S;S_S;S;C;Train;Worker;Right;5;S;C;Idle;S;For_S;S;S_S;S;S_S;S;C;Train;Light;Down;3;S;C;Train;Heavy;Down;10;S;For_S;S;C;Build;Barracks;EnemyDir;2;S;For_S;S;S_S;S;C;Attack;Strongest;S;For_S;S;C;Harvest;3
+46800,S;S_S;S;S_S;S;For_S;S;S_S;S;C;Train;Worker;Right;5;S;C;Idle;S;For_S;S;S_S;S;S_S;S;C;Train;Light;Down;3;S;C;Train;Heavy;Down;10;S;For_S;S;C;Build;Barracks;EnemyDir;2;S;For_S;S;S_S;S;C;Attack;Strongest;S;For_S;S;C;Harvest;3
+50400,S;S_S;S;S_S;S;For_S;S;S_S;S;C;Train;Worker;Right;5;S;C;Idle;S;For_S;S;S_S;S;S_S;S;C;Train;Light;Down;3;S;C;Train;Heavy;Down;10;S;For_S;S;C;Build;Barracks;EnemyDir;2;S;For_S;S;S_S;S;C;Attack;Strongest;S;For_S;S;C;Harvest;3
+54000,S;S_S;S;S_S;S;For_S;S;S_S;S;C;Train;Worker;Right;5;S;C;Idle;S;For_S;S;S_S;S;S_S;S;C;Train;Light;Down;3;S;C;Train;Heavy;Down;10;S;For_S;S;C;Build;Barracks;EnemyDir;2;S;For_S;S;S_S;S;C;Attack;Strongest;S;For_S;S;C;Harvest;3

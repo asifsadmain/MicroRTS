@@ -1,0 +1,15 @@
+3600,S;For_S;S;S_S;S;C;Train;Worker;Down;15;S;S_S;S;C;Attack;Strongest;S;C;MoveToUnit;Ally;Closest
+7200,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+10800,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+14400,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+18000,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+21600,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+25200,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+28800,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+32400,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+36000,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+39600,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+43200,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+46800,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+50400,S;S_S;S;For_S;S;C;Idle;S;For_S;S;For_S;S;S_S;S;For_S;S;S_S;S;C;Build;Barracks;Left;7;S;S_S;S;C;Harvest;15;S;C;MoveToUnit;Enemy;Farthest;S;C;Train;Light;Right;100
+54000,S;S_S;S;For_S;S;C;Idle;S;For_S;S;S_S;S;For_S;S;S_S;S;S_S;S;C;Build;Barracks;Down;5;S;C;Harvest;20;S;C;MoveToUnit;Enemy;Closest;S;C;Train;Heavy;Right;50

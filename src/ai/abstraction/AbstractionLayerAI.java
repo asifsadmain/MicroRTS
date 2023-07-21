@@ -34,7 +34,7 @@ public abstract class AbstractionLayerAI extends AIWithComputationBudget {
     //      - harvest(target)
     //      - attack(target)
     protected HashMap<Unit, AbstractAction> actions = new LinkedHashMap<>();
-    protected PathFinding pf;
+    public PathFinding pf;
     // In case the GameState is cloned, and the Unit pointers in the "actions" map change, this variable
     // saves a pointer to the previous GameState, if it's different than the current one, then we need to find a mapping
     // between the old units and the new ones
@@ -53,15 +53,15 @@ public abstract class AbstractionLayerAI extends AIWithComputationBudget {
     public void reset() {
         actions.clear();
     }
-       
 
-    public PlayerAction translateActions(int player, GameState gs) {        
+
+    public PlayerAction translateActions(int player, GameState gs) {
         PhysicalGameState pgs = gs.getPhysicalGameState();
         PlayerAction pa = new PlayerAction();
         List<Pair<Unit, UnitAction>> desires = new ArrayList<>();
 
         lastGameState = gs;
-        
+
         // Execute abstract actions:
         List<Unit> toDelete = new ArrayList<>();
         ResourceUsage ru = new ResourceUsage();
@@ -124,6 +124,10 @@ public abstract class AbstractionLayerAI extends AIWithComputationBudget {
         actions.put(u, new Train(u, unit_type));
     }
 
+    public void train(Unit u, UnitType unit_type,int preference) {
+        actions.put(u, new Train(u, unit_type,preference));
+    }
+
     public void build(Unit u, UnitType unit_type, int x, int y) {
         actions.put(u, new Build(u, unit_type, x, y, pf));
     }
@@ -154,7 +158,7 @@ public abstract class AbstractionLayerAI extends AIWithComputationBudget {
             System.out.println("");
         }
         */
-        
+
         for (int l = 1; l < Math.max(pgs.getHeight(), pgs.getWidth()); l++) {
             for (int side = 0; side < 4; side++) {
                 switch (side) {
@@ -233,9 +237,9 @@ public abstract class AbstractionLayerAI extends AIWithComputationBudget {
 //        System.out.println("buildIfNotAlreadyBuilding: action = " + action);
         if (!(action instanceof Build) || ((Build) action).type != type) {
             int pos = findBuildingPosition(reservedPositions, desiredX, desiredY, p, pgs);
-            
+
 //            System.out.println("pos = " + (pos % pgs.getWidth()) + "," + (pos / pgs.getWidth()));
-            
+
             build(u, type, pos % pgs.getWidth(), pos / pgs.getWidth());
             reservedPositions.add(pos);
             return true;

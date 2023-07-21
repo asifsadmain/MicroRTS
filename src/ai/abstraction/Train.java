@@ -17,34 +17,41 @@ import util.XMLWriter;
  * @author santi
  */
 public class Train extends AbstractAction {
-    UnitType type;
-    
+    public UnitType type;
+
     boolean completed = false;
-    
+    int preference;
+
     public Train(Unit u, UnitType a_type) {
         super(u);
         type = a_type;
+        preference = UnitAction.DIRECTION_NONE;
     }
-    
+    public Train(Unit u, UnitType a_type,int a_preference) {
+        super(u);
+        type = a_type;
+        this.preference = a_preference;
+    }
+
     public boolean completed(GameState pgs) {
         return completed;
     }
-    
-    
+
+
     public boolean equals(Object o)
     {
         if (!(o instanceof Train)) return false;
         Train a = (Train)o;
         return type == a.type;
     }
-    
-    
+
+
     public void toxml(XMLWriter w)
     {
         w.tagWithAttributes("Train","unitID=\""+unit.getID()+"\" type=\""+type.name+"\"");
         w.tag("/Train");
-    }     
-    
+    }
+
     public UnitAction execute(GameState gs, ResourceUsage ru) {
         // find the best location for the unit:
         PhysicalGameState pgs = gs.getPhysicalGameState();
@@ -52,9 +59,10 @@ public class Train extends AbstractAction {
         int y = unit.getY();
         int best_direction = -1;
         int best_score = -1;
-                
+
         if (y>0 && gs.free(x,y-1)) {
             int score = score(x,y-1, type, unit.getPlayer(), pgs);
+            if(UnitAction.DIRECTION_UP==this.preference)score=10000000;
             if (score>best_score || best_direction==-1) {
                 best_score = score;
                 best_direction = UnitAction.DIRECTION_UP;
@@ -62,6 +70,7 @@ public class Train extends AbstractAction {
         }
         if (x<pgs.getWidth()-1 && gs.free(x+1,y)) {
             int score = score(x+1,y, type, unit.getPlayer(), pgs);
+            if(UnitAction.DIRECTION_RIGHT==this.preference)score=10000000;
             if (score>best_score || best_direction==-1) {
                 best_score = score;
                 best_direction = UnitAction.DIRECTION_RIGHT;
@@ -69,6 +78,7 @@ public class Train extends AbstractAction {
         }
         if (y<pgs.getHeight()-1 && gs.free(x,y+1)) {
             int score = score(x,y+1, type, unit.getPlayer(), pgs);
+            if(UnitAction.DIRECTION_DOWN==this.preference)score=10000000;
             if (score>best_score || best_direction==-1) {
                 best_score = score;
                 best_direction = UnitAction.DIRECTION_DOWN;
@@ -76,29 +86,32 @@ public class Train extends AbstractAction {
         }
         if (x>0 && gs.free(x-1,y)) {
             int score = score(x-1,y, type, unit.getPlayer(), pgs);
+            if(UnitAction.DIRECTION_LEFT==this.preference)score=10000000;
             if (score>best_score || best_direction==-1) {
                 best_score = score;
                 best_direction = UnitAction.DIRECTION_LEFT;
             }
         }
-        
+
         completed = true;
-        
+
 //        System.out.println("Executing train: " + type + " best direction " + best_direction);
 
 
         if (best_direction!=-1) {
             UnitAction ua = new UnitAction(UnitAction.TYPE_PRODUCE,best_direction, type);
+
             if (gs.isUnitActionAllowed(unit, ua)) return ua;
+
         }
-        
+
         return null;
     }
-    
+
     public int score(int x, int y, UnitType type, int player, PhysicalGameState pgs) {
         int distance = 0;
         boolean first = true;
-                
+
         if (type.canHarvest) {
             // score is minus distance to closest resource
             for(Unit u:pgs.getUnits()) {
@@ -120,10 +133,10 @@ public class Train extends AbstractAction {
                         first = false;
                     }
                 }
-            }   
+            }
         }
 
         return -distance;
     }
-    
+
 }

@@ -1,0 +1,15 @@
+3600,S;For_S;S;S_S;S;S_S;S;S_S;S;C;Harvest;15;S;S_S;S;For_S;S;C;Build;Barracks;EnemyDir;4;S;C;Attack;Closest;S;If_B_then_S_else_S;B;CanAttack;S;Empty;S;For_S;S;C;Idle;S;C;Train;Worker;Down;25
+7200,S;For_S;S;S_S;S;S_S;S;C;Harvest;15;S;S_S;S;For_S;S;C;Idle;S;C;Attack;Closest;S;C;Train;Worker;Left;25
+10800,S;For_S;S;S_S;S;S_S;S;C;Harvest;15;S;S_S;S;For_S;S;C;Idle;S;C;Attack;Closest;S;C;Train;Worker;Left;25
+14400,S;For_S;S;S_S;S;S_S;S;C;Harvest;15;S;S_S;S;For_S;S;C;Idle;S;C;Attack;Closest;S;C;Train;Worker;Left;25
+18000,S;For_S;S;S_S;S;S_S;S;C;Harvest;15;S;S_S;S;For_S;S;C;Idle;S;C;Attack;Closest;S;C;Train;Worker;Left;25
+21600,S;For_S;S;S_S;S;S_S;S;If_B_then_S;B;CanAttack;S;C;Attack;Strongest;S;For_S;S;S_S;S;C;Idle;S;If_B_then_S_else_S;B;IsBuilder;S;C;Harvest;4;S;C;MoveToUnit;Ally;Weakest;S;C;Train;Worker;Left;25
+25200,S;For_S;S;S_S;S;S_S;S;If_B_then_S;B;CanAttack;S;C;Attack;Strongest;S;For_S;S;S_S;S;C;Idle;S;If_B_then_S_else_S;B;IsBuilder;S;C;Harvest;4;S;C;MoveToUnit;Ally;Weakest;S;C;Train;Worker;Left;25
+28800,S;For_S;S;S_S;S;S_S;S;If_B_then_S;B;CanAttack;S;C;Attack;Strongest;S;For_S;S;S_S;S;C;Idle;S;If_B_then_S_else_S;B;IsBuilder;S;C;Harvest;4;S;C;MoveToUnit;Ally;Weakest;S;C;Train;Worker;Left;25
+32400,S;For_S;S;S_S;S;S_S;S;If_B_then_S;B;CanAttack;S;C;Attack;Strongest;S;For_S;S;S_S;S;C;Idle;S;If_B_then_S_else_S;B;IsBuilder;S;C;Harvest;4;S;C;MoveToUnit;Ally;Weakest;S;C;Train;Worker;Left;25
+36000,S;For_S;S;S_S;S;S_S;S;If_B_then_S;B;CanAttack;S;C;Attack;Strongest;S;For_S;S;S_S;S;C;Idle;S;If_B_then_S_else_S;B;IsBuilder;S;C;Harvest;4;S;C;MoveToUnit;Ally;Weakest;S;C;Train;Worker;Left;25
+39600,S;For_S;S;S_S;S;S_S;S;If_B_then_S;B;CanAttack;S;C;Attack;Strongest;S;For_S;S;S_S;S;C;Idle;S;If_B_then_S_else_S;B;IsBuilder;S;C;Harvest;4;S;C;MoveToUnit;Ally;Weakest;S;C;Train;Worker;Left;25
+43200,S;For_S;S;S_S;S;S_S;S;If_B_then_S;B;CanAttack;S;C;Attack;Strongest;S;For_S;S;S_S;S;C;Idle;S;If_B_then_S_else_S;B;IsBuilder;S;C;Harvest;4;S;C;MoveToUnit;Ally;Weakest;S;C;Train;Worker;Left;25
+46800,S;For_S;S;S_S;S;S_S;S;If_B_then_S;B;CanAttack;S;C;Attack;Strongest;S;For_S;S;S_S;S;C;Idle;S;If_B_then_S_else_S;B;IsBuilder;S;C;Harvest;4;S;C;MoveToUnit;Ally;Weakest;S;C;Train;Worker;Left;25
+50400,S;For_S;S;S_S;S;S_S;S;If_B_then_S;B;CanAttack;S;C;Attack;Strongest;S;For_S;S;S_S;S;C;Idle;S;If_B_then_S_else_S;B;IsBuilder;S;C;Harvest;4;S;C;MoveToUnit;Ally;Weakest;S;C;Train;Worker;Left;25
+54000,S;For_S;S;S_S;S;S_S;S;If_B_then_S;B;CanAttack;S;C;Attack;Strongest;S;For_S;S;S_S;S;C;Idle;S;If_B_then_S_else_S;B;IsBuilder;S;C;Harvest;4;S;C;MoveToUnit;Ally;Weakest;S;C;Train;Worker;Left;25

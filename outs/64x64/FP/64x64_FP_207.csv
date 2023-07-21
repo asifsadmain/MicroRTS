@@ -1,0 +1,15 @@
+3600,S;For_S;S;S_S;S;S_S;S;C;Attack;Strongest;S;S_S;S;If_B_then_S;B;HasUnitThatKillsInOneAttack;S;C;MoveToUnit;Enemy;LessHealthy;S;C;Train;Worker;Up;8;S;For_S;S;C;Harvest;4
+3600,S;For_S;S;S_S;S;S_S;S;C;Attack;Strongest;S;S_S;S;If_B_then_S;B;HasUnitThatKillsInOneAttack;S;C;MoveToUnit;Enemy;LessHealthy;S;C;Train;Worker;Up;8;S;For_S;S;C;Harvest;4
+10800,S;For_S;S;S_S;S;S_S;S;C;Attack;Strongest;S;S_S;S;If_B_then_S;B;HasUnitThatKillsInOneAttack;S;C;MoveToUnit;Enemy;LessHealthy;S;C;Train;Worker;Up;8;S;For_S;S;C;Harvest;4
+10800,S;For_S;S;S_S;S;S_S;S;C;Attack;Strongest;S;S_S;S;If_B_then_S;B;HasUnitThatKillsInOneAttack;S;C;MoveToUnit;Enemy;LessHealthy;S;C;Train;Worker;Up;8;S;For_S;S;C;Harvest;4
+18000,S;For_S;S;S_S;S;S_S;S;C;Attack;Strongest;S;S_S;S;If_B_then_S;B;HasUnitThatKillsInOneAttack;S;C;MoveToUnit;Enemy;LessHealthy;S;C;Train;Worker;Up;8;S;For_S;S;C;Harvest;4
+21600,S;For_S;S;S_S;S;S_S;S;C;Attack;Strongest;S;S_S;S;If_B_then_S;B;HasUnitThatKillsInOneAttack;S;C;MoveToUnit;Enemy;LessHealthy;S;C;Train;Worker;Up;8;S;For_S;S;C;Harvest;4
+21600,S;For_S;S;S_S;S;S_S;S;C;Attack;Strongest;S;S_S;S;If_B_then_S;B;HasUnitThatKillsInOneAttack;S;C;MoveToUnit;Enemy;LessHealthy;S;C;Train;Worker;Up;8;S;For_S;S;C;Harvest;4
+25200,S;For_S;S;S_S;S;S_S;S;C;Attack;Strongest;S;S_S;S;If_B_then_S;B;HasUnitThatKillsInOneAttack;S;C;MoveToUnit;Enemy;LessHealthy;S;C;Train;Worker;Up;8;S;For_S;S;C;Harvest;4
+32400,S;For_S;S;S_S;S;S_S;S;C;Attack;Strongest;S;S_S;S;If_B_then_S;B;HasUnitThatKillsInOneAttack;S;C;MoveToUnit;Enemy;LessHealthy;S;C;Train;Worker;Up;8;S;For_S;S;C;Harvest;4
+36000,S;For_S;S;S_S;S;S_S;S;C;Attack;Strongest;S;S_S;S;If_B_then_S;B;HasUnitThatKillsInOneAttack;S;C;MoveToUnit;Enemy;LessHealthy;S;C;Train;Worker;Up;8;S;For_S;S;C;Harvest;4
+39600,S;For_S;S;S_S;S;S_S;S;S_S;S;C;Attack;Closest;S;C;Train;Worker;Up;25;S;For_S;S;C;Idle;S;For_S;S;C;Harvest;10
+39600,S;For_S;S;S_S;S;S_S;S;S_S;S;C;Attack;Closest;S;C;Train;Worker;Up;25;S;For_S;S;C;Idle;S;For_S;S;C;Harvest;10
+43200,S;For_S;S;S_S;S;S_S;S;S_S;S;C;Attack;Closest;S;C;Train;Worker;Up;25;S;For_S;S;C;Idle;S;For_S;S;C;Harvest;10
+50400,S;For_S;S;S_S;S;S_S;S;S_S;S;C;Attack;Closest;S;C;Train;Worker;Up;25;S;For_S;S;C;Idle;S;For_S;S;C;Harvest;10
+50400,S;For_S;S;S_S;S;S_S;S;S_S;S;C;Attack;Closest;S;C;Train;Worker;Up;25;S;For_S;S;C;Idle;S;For_S;S;C;Harvest;10
