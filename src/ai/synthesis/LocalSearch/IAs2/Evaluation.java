@@ -7,6 +7,8 @@ import ai.synthesis.LocalSearch.TwoLevelSearch.Level2;
 import rts.GameState;
 import util.Pair;
 
+import java.util.List;
+
 public interface Evaluation {
 	Pair<Double,Double> evaluation(GameState gs,int max,Node_LS n,Feature oraculo,Level1 l1) throws Exception;
 	double evaluation(GameState gs,int max,Node_LS n) throws Exception;
@@ -14,4 +16,6 @@ public interface Evaluation {
 	Node_LS getIndividuo();
 	Node_LS getBest();
 	boolean stoppingCriterion(double d);
+
+	List<Node_LS> getIndividuos();
 }

@@ -1,10 +1,14 @@
 package ai.synthesis.LocalSearch.IAs2;
 
+import ai.core.AI;
 import ai.synthesis.LLM.ASTCreator;
 import ai.synthesis.LLM.GPT35Request;
+import ai.synthesis.LocalSearch.EvaluateGameState.SimplePlayout;
 import ai.synthesis.LocalSearch.LS_CFG.Node_LS;
+import ai.synthesis.Synthesis_Base.AIs.Interpreter;
 import rts.GameState;
 import ai.synthesis.Synthesis_Base.CFG.Control;
+import rts.units.UnitTypeTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +30,19 @@ public class SelfPlay {
 
     public void runWithLLM(GameState gs, int max, String mapNumber) throws Exception {
         List<String> strategyList = new ArrayList<String>();
+        List<Node_LS> individuos = ava.getIndividuos();
+
+        for (Node_LS individuo : individuos) {
+            strategyList.add(individuo.translateIndentation(1));
+        }
+
         while (true) {
             long paraou = System.currentTimeMillis() - this.tempo_ini;
             boolean foundInLLM = false;
 
             Node_LS j = ava.getIndividuo();
             Node_LS searchStart = j;
-            double rLLM = -99999.0;
+            double scoreLLM = -99999.0;
 
             strategyList.add(j.translateIndentation(1));
 
@@ -74,6 +84,16 @@ public class SelfPlay {
                     }
                 }
 
+                SimplePlayout playout = new SimplePlayout();
+                UnitTypeTable utt = new UnitTypeTable(2);
+                double score = 0.0;
+                AI ai1 = new Interpreter(utt, c0);
+
+                for (Node_LS individuo : individuos) {
+                    AI ai2 = new Interpreter(utt, individuo);
+                    score += playout.run(gs, utt,0, max, ai1, ai2, false).m_a;
+                }
+
                 double r0 = ava.evaluation(gs, max, c0);
                 double r1 = ava.evaluation(gs, max, j);
 
@@ -84,8 +104,8 @@ public class SelfPlay {
                     break;
                 }
 
-                if (r0 > rLLM) {
-                    rLLM = r0;
+                if (score > scoreLLM) {
+                    scoreLLM = score;
                     searchStart = c0;
                 }
             }
@@ -100,6 +120,7 @@ public class SelfPlay {
             System.out.println();
             System.out.println("Starting search from this:");
             System.out.println(Control.salve(searchStart));
+            System.out.println("Score = " + scoreLLM);
             System.out.println();
 
             Node_LS c0 = sc.run(gs, max, searchStart, ava);

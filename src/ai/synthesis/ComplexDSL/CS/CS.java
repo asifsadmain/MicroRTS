@@ -219,8 +219,8 @@ public class CS implements Avaliador {
     }
 
     @Override
-    public int getTotalIndividuos() {
-        return this.individuos.size();
+    public List<Node_LS> getIndividuos() {
+        return this.individuos;
     }
 
   @Override

@@ -183,4 +183,9 @@ public class EvaluatorSP implements Evaluation {
 		return (Node_LS) js.get(js.size()-1).Clone(f);
 	}
 
+	@Override
+	public List<Node_LS> getIndividuos() {
+		return this.js;
+	}
+
 }

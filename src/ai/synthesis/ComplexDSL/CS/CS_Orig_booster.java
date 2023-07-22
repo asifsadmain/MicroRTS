@@ -316,8 +316,8 @@ public class CS_Orig_booster implements Avaliador {
     }
 
     @Override
-    public int getTotalIndividuos() {
-        return this.individuos.size();
+    public List<Node_LS> getIndividuos() {
+        return this.individuos;
     }
 
   @Override

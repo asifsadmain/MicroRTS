@@ -130,8 +130,8 @@ public class AvaliadorPadrao implements Avaliador {
     }
 
     @Override
-    public int getTotalIndividuos() {
-        return this.js.size();
+    public List<Node_LS> getIndividuos() {
+        return this.js;
     }
 
 }
