@@ -24,7 +24,7 @@ public class SelfPlay {
     }
 
 
-    public void runWithLLM(GameState gs, int max) throws Exception {
+    public void runWithLLM(GameState gs, int max, String mapNumber) throws Exception {
         List<String> strategyList = new ArrayList<String>();
         while (true) {
             long paraou = System.currentTimeMillis() - this.tempo_ini;
@@ -59,7 +59,7 @@ public class SelfPlay {
                 Node_LS c0 = null;
                 while (!isSuccess) {
                     try {
-                        counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastFiveStrategies);
+                        counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastFiveStrategies, mapNumber);
                         c0 = ASTCreator.createAST(counterStrategy);
 //            System.out.println();
 //            System.out.println("-------- Counter Strategy ---------");

@@ -232,7 +232,17 @@ public class GPT35Request {
     return content;
   }
 
-  public static String getStartingStrategy() throws Exception {
+  public static String getStartingStrategy(String mapNumber) throws Exception {
+    String mapDetails = "";
+    if (mapNumber.equals("1")) {
+      mapDetails = mapDetails24x24;
+    } else if (mapNumber.equals("2")) {
+      mapDetails = mapDetails32x32;
+    } else if (mapNumber.equals("3")) {
+      mapDetails = mapDetails64x64;
+    } else if (mapNumber.equals("4")) {
+      mapDetails = mapDetails9x8;
+    }
     String InitialStrategyRequest = mapDetails + DSL + DSLExplanation + strategyWritingGuidelines + "Your tasks are the following 7:\\n" + tasks;
 //    String postBody = REQUEST_BODY_GPT_TURBO.formatted(InitialStrategyRequest);
     String postBody = String.format(REQUEST_BODY_GPT_TURBO, InitialStrategyRequest);
@@ -255,7 +265,18 @@ public class GPT35Request {
     return strategy;
   }
 
-  public static String getBestResponseStrategy(String strategy, List<String> lastFiveStrategies) throws IOException, InterruptedException {
+  public static String getBestResponseStrategy(String strategy, List<String> lastFiveStrategies, String mapNumber) throws IOException, InterruptedException {
+    String mapDetails = "";
+    if (mapNumber.equals("1")) {
+      mapDetails = mapDetails24x24;
+    } else if (mapNumber.equals("2")) {
+      mapDetails = mapDetails32x32;
+    } else if (mapNumber.equals("3")) {
+      mapDetails = mapDetails64x64;
+    } else if (mapNumber.equals("4")) {
+      mapDetails = mapDetails9x8;
+    }
+
     String bestResponse = "";
     strategy = strategy.replace("\n", "\\n");
     strategy = strategy.replace("\t", " ");
@@ -275,14 +296,15 @@ public class GPT35Request {
     }
     lastFiveBestRespones.append("```\\n\\n");
 
+    if (lastFiveStrategies.size() < 3) lastFiveBestRespones = new StringBuilder();
 
-
-    String bestResponseStrategyRequest = mapDetails + DSL + DSLExplanation + lastFiveBestRespones +
+    String bestResponseStrategyRequest = mapDetails + DSL + DSLExplanation + lastFiveBestRespones.toString() +
       "Now I have the following strategy that satisfies the DSL, written inside <strategy></strategy> tag:\\n" +
       "<strategy>\\n" + strategy + "</strategy>\\n\\n" +
       "Now your tasks are the following:\\n" +
-      "1. Analyze this given strategy and try to analyze its weakness.\\n" +
-      "2. Write a counter strategy that can dominate and easily defeat the given strategy. You can take help from the sequence of strategies to write the counter strategy.\\n" +
+      "1. Analyze this given strategy and try to analyze its weaknesses. For this analysis, you may take help from the sequence of strategies if provided.\\n" +
+      "2. Write a counter strategy that can dominate and easily defeat the given strategy. You can attempt to train and use different types " +
+            "and combinations of units if you have not done so. \\n" +
       "3. You need to only write the counter strategy inside <counterStrategy></counterStrategy> tag.";
 
     String postBody = String.format(REQUEST_BODY_GPT_TURBO, bestResponseStrategyRequest);
@@ -318,6 +340,6 @@ public class GPT35Request {
       "  }\n" +
       "  u.idle()\n" +
       "}";
-    System.out.println(getBestResponseStrategy(strategy, new ArrayList<>()));
+    System.out.println(getBestResponseStrategy(strategy, new ArrayList<>(), "1"));
   }
 }

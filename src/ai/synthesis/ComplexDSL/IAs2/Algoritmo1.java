@@ -28,7 +28,7 @@ public class Algoritmo1 {
 	}
 
 
-	public void runWithLLM(GameState gs, int max) throws Exception {
+	public void runWithLLM(GameState gs, int max, String mapNumber) throws Exception {
 		List<String> strategyList = new ArrayList<String>();
 		while (true) {
 			long paraou = System.currentTimeMillis() - this.tempo_ini;
@@ -63,7 +63,7 @@ public class Algoritmo1 {
 				Node_LS c0 = null;
 				while (!isSuccess) {
 					try {
-						counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastFiveStrategies);
+						counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastFiveStrategies, mapNumber);
 						c0 = ASTCreatorForComplexDSL.createAST(counterStrategy);
 //            System.out.println();
 //            System.out.println("-------- Counter Strategy ---------");
@@ -104,6 +104,7 @@ public class Algoritmo1 {
 			System.out.println();
 			System.out.println("Starting search from this:");
 			System.out.println(Control.save(searchStart));
+			System.out.println("Score = " + rLLM);
 			System.out.println();
 
 			Node_LS c0 = sc.run(gs, max, searchStart, ava);

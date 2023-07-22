@@ -75,7 +75,7 @@ public class MainTest {
 			boolean isSuccess = false;
 			while (!isSuccess) {
 				try {
-					String strategy = GPT35Request.getStartingStrategy();
+					String strategy = GPT35Request.getStartingStrategy(args[0]);
 					Node_LS j1 = ASTCreator.createAST(strategy);
 					js.add(j1);
 					isSuccess = true;
@@ -85,7 +85,7 @@ public class MainTest {
 			}
 
 			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new EvaluatorSP(1,null, js));
-			se2.runWithLLM(gs2, max);
+			se2.runWithLLM(gs2, max, args[0]);
 		}
 
 		if(args[1].equals("4")) {
@@ -96,7 +96,7 @@ public class MainTest {
 			boolean isSuccess = false;
 			while (!isSuccess) {
 				try {
-					String strategy = GPT35Request.getStartingStrategy();
+					String strategy = GPT35Request.getStartingStrategy(args[0]);
 					Node_LS j1 = ASTCreator.createAST(strategy);
 					js.add(j1);
 					isSuccess = true;
@@ -106,7 +106,7 @@ public class MainTest {
 			}
 
 			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new EvaluatorSP(1000,null, js));
-			se2.runWithLLM(gs2, max);
+			se2.runWithLLM(gs2, max, args[0]);
 		}
 
 		if(args[1].equals("5")) {
@@ -117,18 +117,18 @@ public class MainTest {
 			boolean isSuccess = false;
 			while (!isSuccess) {
 				try {
-					String strategy = GPT35Request.getStartingStrategy();
+					String strategy = GPT35Request.getStartingStrategy(args[0]);
 					ai.synthesis.ComplexDSL.LS_CFG.Node_LS j1 = ASTCreatorForComplexDSL.createAST(strategy);
 					js.add(j1);
 					isSuccess = true;
 				} catch (Exception e) {
-        System.out.println(e.toString());
+//        System.out.println(e.toString());
 				}
 			}
 
 			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.SA(time,2000,0.9,0.5), new CS_Default(js));
 //			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new CS_Default());
-			se2.runWithLLM(gs2, max);
+			se2.runWithLLM(gs2, max, args[0]);
 		}
 		
 		
