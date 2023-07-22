@@ -1,6 +1,9 @@
 package ai.synthesis.LocalSearch.Tests;
 
+import ai.synthesis.ComplexDSL.CS.CS_Default;
+import ai.synthesis.ComplexDSL.IAs2.Algoritmo1;
 import ai.synthesis.LLM.ASTCreator;
+import ai.synthesis.LLM.ASTCreatorForComplexDSL;
 import ai.synthesis.LLM.GPT35Request;
 import ai.synthesis.LocalSearch.IAs2.Evaluation;
 import ai.synthesis.LocalSearch.IAs2.EvaluatorSP;
@@ -56,74 +59,15 @@ public class MainTest {
 			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new EvaluatorSP(1000,null));
 			se2.run(gs2, max);
 		}
-		
+
 		if(args[1].equals("2")) {
-			Level1 l1= new NaiveSampling(0.3,0.3,0.6,change_NS,"r1/out_2"+"_"+args[1]+"_"+args[2]+".txt");
-			Level2 l2 = new BehavioralCloning(time,2000,0.9,0.5,true);
-			Evaluation ava = new EvaluatorSP(1,l1.getFN());	
-			se = new TwoLevelsearch(l1,l2,ava);
-			se.run(gs2, max);
-		}
-				
-		if(args[1].equals("3")) {
-			Level1 l1= new NaiveSampling(0.3,0.3,0.6,change_NS,"r1/out_2"+"_"+args[1]+"_"+args[2]+".txt");
-			Level2 l2 = new BehavioralCloning(time,2000,0.9,0.5,true);
-			Evaluation ava = new EvaluatorSP(1000,l1.getFN());	
-			se = new TwoLevelsearch(l1,l2,ava);
-			se.run(gs2, max);
-		}
-		
-		if(args[1].equals("4")) {
-			SketchBehavioral SB = new SketchBehavioral(0);	//coac
-			Level2 l2 = new BehavioralCloning(time,2000,0.9,0.5,true);
-			Evaluation ava = new EvaluatorSP(1,SB.getFN());	//SP
-			SketchSearch SS = new SketchSearch(SB,l2,ava);
-			SS.run(gs2, max);
-			
-		}
-		if(args[1].equals("5")) {
-			SketchBehavioral SB = new SketchBehavioral(0);	//coac
-			Level2 l2 = new BehavioralCloning(time,2000,0.9,0.5,true);
-			Evaluation ava = new EvaluatorSP(1000,SB.getFN());	//FP
-			SketchSearch SS = new SketchSearch(SB,l2,ava);
-			SS.run(gs2, max);
-			
-		}
-		
-		if(args[1].equals("6")) {
-			SketchBehavioral SB = new SketchBehavioral(1);	//mayari
-			Level2 l2 = new BehavioralCloning(time,2000,0.9,0.5,true);
-			Evaluation ava = new EvaluatorSP(1,SB.getFN());	//SP
-			SketchSearch SS = new SketchSearch(SB,l2,ava);
-			SS.run(gs2, max);
-			
-		}
-		if(args[1].equals("7")) {
-			SketchBehavioral SB = new SketchBehavioral(1);	//mayari
-			Level2 l2 = new BehavioralCloning(time,2000,0.9,0.5,true);
-			Evaluation ava = new EvaluatorSP(1000,SB.getFN());	//FP
-			SketchSearch SS = new SketchSearch(SB,l2,ava);
-			SS.run(gs2, max);
-			
-		}
-		if(args[1].equals("8")) {
-			SketchBehavioral SB = new SketchBehavioral(2);	//self
-			Level2 l2 = new BehavioralCloning(time,2000,0.9,0.5,true);
-			Evaluation ava = new EvaluatorSP(1,SB.getFN());	//SP
-			SketchSearch SS = new SketchSearch(SB,l2,ava);
-			SS.run(gs2, max);
-			
-		}
-		if(args[1].equals("9")) {
-			SketchBehavioral SB = new SketchBehavioral(2);	//self
-			Level2 l2 = new BehavioralCloning(time,2000,0.9,0.5,true);
-			Evaluation ava = new EvaluatorSP(1000,SB.getFN());	//FP
-			SketchSearch SS = new SketchSearch(SB,l2,ava);
-			SS.run(gs2, max);
-			
+			System.out.println("Algorithm: LL");
+			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.SA(time,2000,0.9,0.5), new CS_Default());
+//			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new CS_Default());
+			se2.run(gs2, max);
 		}
 
-		if(args[1].equals("10")) {
+		if(args[1].equals("3")) {
 			System.out.println("Algorithm: IBR with LLM");
 
 			List<Node_LS> js = new ArrayList<Node_LS>();
@@ -144,7 +88,7 @@ public class MainTest {
 			se2.runWithLLM(gs2, max);
 		}
 
-		if(args[1].equals("11")) {
+		if(args[1].equals("4")) {
 			System.out.println("Algorithm: FP with LLM");
 
 			List<Node_LS> js = new ArrayList<Node_LS>();
@@ -162,6 +106,28 @@ public class MainTest {
 			}
 
 			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new EvaluatorSP(1000,null, js));
+			se2.runWithLLM(gs2, max);
+		}
+
+		if(args[1].equals("5")) {
+			System.out.println("Algorithm: LL with LLM");
+
+			List<ai.synthesis.ComplexDSL.LS_CFG.Node_LS> js = new ArrayList<ai.synthesis.ComplexDSL.LS_CFG.Node_LS>();
+
+			boolean isSuccess = false;
+			while (!isSuccess) {
+				try {
+					String strategy = GPT35Request.getStartingStrategy();
+					ai.synthesis.ComplexDSL.LS_CFG.Node_LS j1 = ASTCreatorForComplexDSL.createAST(strategy);
+					js.add(j1);
+					isSuccess = true;
+				} catch (Exception e) {
+        System.out.println(e.toString());
+				}
+			}
+
+			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.SA(time,2000,0.9,0.5), new CS_Default(js));
+//			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new CS_Default());
 			se2.runWithLLM(gs2, max);
 		}
 		

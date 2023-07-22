@@ -5,6 +5,7 @@
 package ai.abstraction;
 
 import ai.abstraction.pathfinding.PathFinding;
+import ai.core.AI;
 import ai.core.AIWithComputationBudget;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -247,6 +248,8 @@ public abstract class AbstractionLayerAI extends AIWithComputationBudget {
             return false;
         }
     }
+
+    public abstract AI clone_for_Thread();
 
     @Override
     public String toString() {

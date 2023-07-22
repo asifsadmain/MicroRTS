@@ -255,4 +255,8 @@ public class Interpreter extends AbstractionLayerAI {
 		return null;
 	}
 
+	@Override
+	public AI clone_for_Thread() {
+		return null;
+	}
 }
