@@ -239,7 +239,7 @@ public class ASTCreator {
       s = new S_LS(new C_LS(new Attack_LS(new OpponentPolicy(parameters.get(0)))));
     } else if (command.startsWith("u.harvest")) {
       s = new S_LS(new C_LS(new Harvest_LS(new N(parameters.get(0)))));
-    } else if (command.startsWith("u.idle")) {
+    } else if (command.startsWith("u.attackIfInRange")) {
       s = new S_LS(new C_LS(new Idle_LS()));
     } else if (command.startsWith("u.moveAway")) {
       s = new S_LS(new C_LS(new MoveAway_LS()));

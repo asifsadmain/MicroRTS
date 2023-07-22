@@ -24,32 +24,40 @@ public class GPT35Request {
       "  \"temperature\": 0.7\n" +
       "}";
 
-//  private static final String mapDetails = "I have a 24x24 map of microRTS. Consider this map as a 2 dimensional array with the following units in it:\\n" +
-//    "- There are total 4 neutral resource centers R located at the indices (0,0), (0,1), (23,22),(23,23)\\n" +
-//    "- The base B1 of player 1 is located at index (2,2)\\n" +
-//    "- The base B2 of player 2 is located at index (21,21)\\n" +
-//    "- The only worker W1 of player 1 is located at index (1,1)\\n" +
-//    "- The only worker of player 2 is located at index (22,22)\\n\\n";
+  private static final String mapDetails24x24 = "I have a 24x24 map of microRTS. Consider this map as a 2 dimensional array with the following units in it:\\n" +
+    "- There are total 4 neutral resource centers R having 25 resources in each located at the indices (0,0), (0,1), (23,22),(23,23).\\n" +
+    "- The base B1 of player 1 is located at index (2,2)\\n" +
+    "- The base B2 of player 2 is located at index (21,21)\\n" +
+    "- The only worker W1 of player 1 is located at index (1,1)\\n" +
+    "- The only worker of player 2 is located at index (22,22)\\n\\n";
 
   private static final String mapDetails9x8 = "I have a 9x8 map of microRTS. Consider this map as a 2 dimensional array with the following units in it:\\n" +
-          "- There are total 8 neutral resource centers R having 10 resources in each are located at the indices (4, 0), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7)\\n" +
+          "- There are total 8 neutral resource centers R having 10 resources in each located at the indices (4, 0), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7)\\n" +
           "- The base B1 of player 1 is located at index (1,1)\\n" +
-          "- The base B2 of player 2 is located at index (7,6)\\n\\n" +
+          "- The base B2 of player 2 is located at index (7,6)\\n" +
           "In summary, there is a whole column right in the middle (4th column) of the map that contains resource cells, which the units cannot traverse. " +
           "The base of player 1 is located at the left side of the 4th column, while the base of the player 2 is located at the right side.\\n\\n";
 
-  private static final String mapDetails = "I have a 32x32 map of microRTS. Consider this map as a 2 dimensional array with the following units in it:\\n" +
-          "- There are total 18 neutral resource centers R located at the indices (0,0), (0,1), (31, 16), (31, 17), (31, 18), (31, 15), (31, 14), (31, 19), (0, 14), (0, 19), (0, 18), (0, 17), (0, 16), (0, 15), (31, 31), (31, 30), (30, 31), (0, 0), (1, 0), (0, 1)\\n" +
+  private static final String mapDetails32x32 = "I have a 32x32 map of microRTS. Consider this map as a 2 dimensional array with the following units in it:\\n" +
+          "- There are total 18 neutral resource centers R located at the indices (0,0), (0,1), (31, 16), (31, 17), (31, 18), (31, 15), (31, 14), (31, 19), (0, 14), (0, 19), (0, 18), (0, 17), (0, 16), (0, 15), (31, 31), (31, 30), (30, 31), (0, 0), (1, 0), (0, 1). " +
+          "The resource centers at the indices (31, 31) and (0, 0) contains 20 resources. All other resource center contains 10 units.\\n" +
           "- The base B1 of player 1 is located at index (2,2)\\n" +
           "- The base B2 of player 2 is located at index (29,29)\\n" +
           "- The only worker W1 of player 1 is located at index (3,3)\\n" +
           "- The only worker of player 2 is located at index (28,28)\\n\\n";
 
+  private static final String mapDetails64x64 = "I have a 64x64 map of microRTS. Consider this map as a 2 dimensional array with the following units in it:\\n" +
+          "- There are total 4 neutral resource centers R having 40 resources in each located at the indices (12, 61), (2, 13), (61, 53), (61, 11)\\n" +
+          "- The base B1 of player 1 is located at index (53, 55)\\n" +
+          "- The base B2 of player 2 is located at index (2, 6)\\n" +
+          "- There are no workers for both player 1 and 2 in the initial map setup\\n" +
+          "It is to be noted that, there are obstacles in between each of the 4 resource centers. The units need to move to somewhere in the middle of the map to navigate from one resource center to another.";
+
   private static final String DSL = "Now I have a context free grammar (CFG) of microRTS playing strategy inside the <CFG></CFG> tag written bellow:\\n\\n" +
     "<CFG>\\n" +
     "S -> SS | for(Unit u) S | if(B) then S | if(B) then S else S | C | λ\\n" +
     "B -> u.hasNumberOfUnits(T, N) | u.opponentHasNumberOfUnits(T, N) | u.hasLessNumberOfUnits(T, N) | u.haveQtdUnitsAttacking(N) | u.hasUnitWithinDistanceFromOpponent(N) | u.hasNumberOfWorkersHarvesting(N) | u.is_Type(T) | u.isBuilder() | u.canAttack() | u.hasUnitThatKillsInOneAttack() | u.opponentHasUnitThatKillsUnitInOneAttack() | u.hasUnitInOpponentRange() | u.opponentHasUnitInPlayerRange() | u.canHarvest()\\n" +
-    "C -> u.build(T, D, N) | u.train(T, D, N) | u.moveToUnit(T_p, O_p) | u.attack(O_p) | u.harvest(N) | u.idle() | u.moveAway()\\n" +
+    "C -> u.build(T, D, N) | u.train(T, D, N) | u.moveToUnit(T_p, O_p) | u.attack(O_p) | u.harvest(N) | u.attackIfInRange() | u.moveAway()\\n" +
     "T -> Base | Barracks | Ranged | Heavy | Light | Worker\\n" +
     "N -> 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 15 | 20 | 25 | 50 | 100\\n" +
     "D -> EnemyDir | Up | Down | Right | Left\\n" +
@@ -79,7 +87,7 @@ public class GPT35Request {
     "3. u.moveToUnit(T_p, O_p): Commands a unit to move towards the player T_p following a criterion O_p.\\n" +
     "4. u.attack(O_p): Sends N Worker units to harvest resources.\\n" +
     "5. u.harvest(N): Sends N Worker units to harvest resources.\\n" +
-    "6. u.idle(): Commands a unit to stay idle and attack if an opponent unit comes within its attack range.\\n" +
+    "6. u.attackIfInRange(): Commands a unit to stay idle and attack if an opponent unit comes within its attack range.\\n" +
     "7. u.moveAway(): Commands a unit to move in the opposite direction of the player's base.\\n\\n" +
     "'T' represents the types a unit can assume. 'N' is a set of integers. 'D' represents the directions available used in action functions.\\n" +
     "O_p is a set of criteria to select an opponent unit based on their current state. T_p represents the set of target players.\\n\\n";
@@ -251,8 +259,10 @@ public class GPT35Request {
     String bestResponse = "";
     strategy = strategy.replace("\n", "\\n");
     strategy = strategy.replace("\t", " ");
+    strategy = strategy.replace("idle", "attackIfInRange");
+//    System.out.println(strategy);
 
-    lastFiveStrategies.replaceAll(s -> s.replace("\n", "\\n").replace("\t", " "));
+    lastFiveStrategies.replaceAll(s -> s.replace("\n", "\\n").replace("\t", " ").replace("idle", "attackIfInRange"));
 
     StringBuilder lastFiveBestRespones = new StringBuilder("The following is a sequence of " + lastFiveStrategies.size() + " strategies where strategy 2 is the counter strategy " +
             "of strategy 1, strategy 3 is the counter strategy of strategy 2,..., strategy n is the counter strategy of strategy (n-1). The strategies are written in" +
@@ -298,6 +308,7 @@ public class GPT35Request {
       "      u.harvest(1)\n" +
       "    }\n" +
       "    u.moveToUnit(Ally,Random)\n" +
+      "    u.idle()\n" +
       "  }\n" +
       "  if(u.HasUnitWithinDistanceFromOpponent(2)) then {\n" +
       "    u.attack(Closest)\n" +
