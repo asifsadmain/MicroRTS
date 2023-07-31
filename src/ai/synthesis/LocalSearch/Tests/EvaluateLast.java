@@ -21,12 +21,26 @@ import java.util.Map;
 
 public class EvaluateLast {
     public static void main(String[] args) throws Exception {
-        int HOURS = 15;
+        int LINES = 72;
         int RUNS = 10;
-        String[] maps = {"9x8"};
+        String[] maps = new String[1];
+        String path_map = "";
+        int max = 6000;
+
+        if (args[0].equals("1")) {
+            maps[0] = "24x24";
+            path_map = "maps/24x24/basesWorkers24x24A.xml";
+        } else if (args[0].equals("2")) {
+            maps[0] = "64x64";
+            path_map = "maps/BroodWar/(4)BloodBath.scmB.xml";
+            max = 15000;
+        } else if (args[0].equals("3")) {
+            maps[0] = "9x8";
+            path_map = "maps/NoWhereToRun9x8.xml";
+        }
 //        String[] algorithms = {"FP", "FP_LLM", "LL", "LL_LLM"};
 //        String[] algorithms = {"IBR", "IBR_LLM", "FP", "FP_LLM"};
-        String[] algorithms = {"LL", "LL_LLM"};
+        String[] algorithms = {"IBR", "FP", "LL", "LL_LLM"};
 
         HashMap<String, HashMap<String, List<List<String>>>> mapHashMap = new HashMap<>();
 
@@ -82,7 +96,7 @@ public class EvaluateLast {
 //        String path_map = "maps/BroodWar/(4)BloodBath.scmB.xml";
 //        String path_map = "maps/8x8/FourBasesWorkers8x8.xml";
 //        String path_map = "maps/16x16/TwoBasesBarracks16x16.xml";
-        String path_map = "maps/NoWhereToRun9x8.xml";
+//        String path_map = "maps/NoWhereToRun9x8.xml";
 //        String path_map = "maps/DoubleGame24x24.xml";
 
         PhysicalGameState pgs = PhysicalGameState.load(path_map, utt);
@@ -98,7 +112,7 @@ public class EvaluateLast {
             System.out.println("--------------------------");
             System.out.println();
 
-            for (int i = 0; i < HOURS; i++) {
+            for (int i = 0; i < LINES; i++) {
                 double[] r = {0.0, 0.0, 0.0, 0.0};
                 for (int j = 0; j < RUNS; j++) {
                     List<String> strategies = new ArrayList<String>();
@@ -109,7 +123,7 @@ public class EvaluateLast {
                     }
 
                     for (String algorithm : algorithms) {
-                        lastStrategies.add(mapHashMap.get(map).get(algorithm).get(j).get(HOURS-1));
+                        lastStrategies.add(mapHashMap.get(map).get(algorithm).get(j).get(LINES-1));
                     }
 
                     for (int p = 0; p < strategies.size(); p++) {
@@ -117,25 +131,37 @@ public class EvaluateLast {
                         String strategy1 = strategies.get(p);
                         Node_LS pre_ai = (Node_LS) Control.load(strategy1, f);
                         AI ai1 = new Interpreter(utt, pre_ai);
-                        int wins = 0;
+                        double score = 0.0;
                         for (int q = 0; q < lastStrategies.size(); q++) {
                             String strategy2 = lastStrategies.get(q);
                             Node_LS pre_ai2 = (Node_LS) Control.load(strategy2, f);
                             //translate it to a AI
                             AI ai2 = new Interpreter(utt, pre_ai2);
 
-                            double score = 0.0;
-                            if (!strategy1.equals(strategy2))
-                                score = playout.run(gs2, utt,0, 6000, ai1, ai2, false).m_a;
-                            if (score == 1.0) {
-                                r[p] += score;
-                                wins++;
-                            }
+                            double r1 = playout.run(gs2, utt,0, max, ai1, ai2, false).m_a;
+                            double r2 = playout.run(gs2, utt,1, max, ai1, ai2, false).m_a;
+
+                            score += (r1 + r2) / 2.0;
+//                            System.out.println("r1 = " + r1);
+//                            System.out.println("r2 = " + r2);
+//                            System.out.println();
+//
+//                            if (r1 == 1.0) {
+//                                r[p] += r1;
+//                                score++;
+//                            } else if (r1 == 0.5) {
+//                                r[p] += 0.5;
+//                                score += 0.5;
+//                            }
+//                            else if ((r1 == 0.5 && r2 == 0.5) || (r1 == 1.0 && r2 == 0.5) || (r1 == 0.5 && r2 == 1.0)) {
+//                                r[p] += 0.5;
+//                                score += 0.5;
+//                            }
                         }
                         if (p < strategies.size()-1) {
-                            System.out.print(wins + ",");
+                            System.out.print(score + ",");
                         } else {
-                            System.out.println(wins);
+                            System.out.println(score);
                         }
                     }
 //                    System.out.println();
