@@ -91,7 +91,9 @@ public class SelfPlay {
 
                 for (Node_LS individuo : individuos) {
                     AI ai2 = new Interpreter(utt, individuo);
+                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                     score += playout.run(gs, utt,0, max, ai1, ai2, false).m_a;
+                    System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
                 }
 
                 double r0 = ava.evaluation(gs, max, c0);

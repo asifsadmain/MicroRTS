@@ -41,6 +41,7 @@ public class SimplePlayout implements Playout {
         	try {
         		aux_time=System.currentTimeMillis();
                 pa1 = ai1.getAction(player, gs2);
+//				if(!pa1.isEmpty()) System.out.println(pa1);
         		long paraou = System.currentTimeMillis()-aux_time;
         	
         		if(paraou>100) {
@@ -63,8 +64,8 @@ public class SimplePlayout implements Playout {
         	try {
         		
                  pa2 = ai2.getAction(1-player, gs2);
-                
-                ;
+
+//				if(!pa2.isEmpty()) System.out.println(pa2);
         	}catch(Exception e) {
         	itbroke=true;
         	

@@ -21,8 +21,8 @@ import java.util.Map;
 
 public class EvaluateLast {
     public static void main(String[] args) throws Exception {
-        int LINES = 72;
-        int RUNS = 10;
+        int LINES = 120;
+        int RUNS = 40;
         String[] maps = new String[1];
         String path_map = "";
         int max = 6000;
@@ -37,11 +37,14 @@ public class EvaluateLast {
         } else if (args[0].equals("3")) {
             maps[0] = "9x8";
             path_map = "maps/NoWhereToRun9x8.xml";
+        } else if (args[0].equals("4")) {
+            maps[0] = "16x16";
+            path_map = "maps/16x16/basesWorkers16x16A.xml";
         }
 //        String[] algorithms = {"FP", "FP_LLM", "LL", "LL_LLM"};
 //        String[] algorithms = {"IBR", "IBR_LLM", "FP", "FP_LLM"};
-        String[] algorithms = {"IBR", "FP", "LL", "LL_LLM"};
-
+//        String[] algorithms = {"IBR", "FP", "LL", "LL_LLM"};
+        String[] algorithms = {"IBR", "FP", "DO", "LL"};
         HashMap<String, HashMap<String, List<List<String>>>> mapHashMap = new HashMap<>();
 
         for (String map : maps) {
