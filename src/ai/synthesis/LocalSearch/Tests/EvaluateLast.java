@@ -115,6 +115,16 @@ public class EvaluateLast {
             System.out.println("--------------------------");
             System.out.println();
 
+            HashMap<String, List<String>> finalStrategies = new HashMap<>();
+
+            for (String algorithm : algorithms) {
+                List<String> strategies = new ArrayList<String>();
+                for (int i = 0; i < RUNS; i++) {
+                    strategies.add(mapHashMap.get(map).get(algorithm).get(i).get(LINES - 1));
+                }
+                finalStrategies.put(algorithm, strategies);
+            }
+
             for (int i = 0; i < LINES; i++) {
                 double[] r = {0.0, 0.0, 0.0, 0.0};
                 for (int j = 0; j < RUNS; j++) {
@@ -123,50 +133,79 @@ public class EvaluateLast {
                     for (String algorithm : algorithms) {
 //                        System.out.println(mapHashMap.get(map).get(algorithm).get(i).get(j));
                         strategies.add(mapHashMap.get(map).get(algorithm).get(j).get(i));
-                    }
+                        String strategy1 = mapHashMap.get(map).get(algorithm).get(j).get(i);
 
-                    for (String algorithm : algorithms) {
-                        lastStrategies.add(mapHashMap.get(map).get(algorithm).get(j).get(LINES-1));
-                    }
-
-                    for (int p = 0; p < strategies.size(); p++) {
-//                        List<Integer> scoresList = new ArrayList<Integer>();
-                        String strategy1 = strategies.get(p);
                         Node_LS pre_ai = (Node_LS) Control.load(strategy1, f);
                         AI ai1 = new Interpreter(utt, pre_ai);
                         double score = 0.0;
-                        for (int q = 0; q < lastStrategies.size(); q++) {
-                            String strategy2 = lastStrategies.get(q);
-                            Node_LS pre_ai2 = (Node_LS) Control.load(strategy2, f);
-                            //translate it to a AI
-                            AI ai2 = new Interpreter(utt, pre_ai2);
 
-                            double r1 = playout.run(gs2, utt,0, max, ai1, ai2, false).m_a;
-                            double r2 = playout.run(gs2, utt,1, max, ai1, ai2, false).m_a;
+                        for (Map.Entry<String,List<String>> stratList : finalStrategies.entrySet()) {
+                            if (!stratList.getKey().equals(algorithm)) {
+                                for (String strategy2 : stratList.getValue()) {
+                                    Node_LS pre_ai2 = (Node_LS) Control.load(strategy2, f);
+                                    //translate it to a AI
+                                    AI ai2 = new Interpreter(utt, pre_ai2);
 
-                            score += (r1 + r2) / 2.0;
-//                            System.out.println("r1 = " + r1);
-//                            System.out.println("r2 = " + r2);
-//                            System.out.println();
-//
-//                            if (r1 == 1.0) {
-//                                r[p] += r1;
-//                                score++;
-//                            } else if (r1 == 0.5) {
-//                                r[p] += 0.5;
-//                                score += 0.5;
-//                            }
-//                            else if ((r1 == 0.5 && r2 == 0.5) || (r1 == 1.0 && r2 == 0.5) || (r1 == 0.5 && r2 == 1.0)) {
-//                                r[p] += 0.5;
-//                                score += 0.5;
-//                            }
+                                    double r1 = playout.run(gs2, utt,0, max, ai1, ai2, false).m_a;
+                                    double r2 = playout.run(gs2, utt,1, max, ai1, ai2, false).m_a;
+
+                                    score += (r1 + r2) / 2.0;
+                                }
+                            }
                         }
-                        if (p < strategies.size()-1) {
+
+                        if (!algorithm.equals(algorithms[algorithms.length - 1])) {
                             System.out.print(score + ",");
                         } else {
                             System.out.println(score);
                         }
                     }
+
+//                    for (String algorithm : algorithms) {
+//                        lastStrategies.add(mapHashMap.get(map).get(algorithm).get(j).get(LINES-1));
+//                    }
+
+//                    for (int p = 0; p < strategies.size(); p++) {
+////                        List<Integer> scoresList = new ArrayList<Integer>();
+//                        String strategy1 = strategies.get(p);
+//                        Node_LS pre_ai = (Node_LS) Control.load(strategy1, f);
+//                        AI ai1 = new Interpreter(utt, pre_ai);
+//                        double score = 0.0;
+//
+//
+//
+//                        for (int q = 0; q < lastStrategies.size(); q++) {
+//                            String strategy2 = lastStrategies.get(q);
+//                            Node_LS pre_ai2 = (Node_LS) Control.load(strategy2, f);
+//                            //translate it to a AI
+//                            AI ai2 = new Interpreter(utt, pre_ai2);
+//
+//                            double r1 = playout.run(gs2, utt,0, max, ai1, ai2, false).m_a;
+//                            double r2 = playout.run(gs2, utt,1, max, ai1, ai2, false).m_a;
+//
+//                            score += (r1 + r2) / 2.0;
+////                            System.out.println("r1 = " + r1);
+////                            System.out.println("r2 = " + r2);
+////                            System.out.println();
+////
+////                            if (r1 == 1.0) {
+////                                r[p] += r1;
+////                                score++;
+////                            } else if (r1 == 0.5) {
+////                                r[p] += 0.5;
+////                                score += 0.5;
+////                            }
+////                            else if ((r1 == 0.5 && r2 == 0.5) || (r1 == 1.0 && r2 == 0.5) || (r1 == 0.5 && r2 == 1.0)) {
+////                                r[p] += 0.5;
+////                                score += 0.5;
+////                            }
+//                        }
+//                        if (p < strategies.size()-1) {
+//                            System.out.print(score + ",");
+//                        } else {
+//                            System.out.println(score);
+//                        }
+//                    }
 //                    System.out.println();
 //                    System.out.println();
 //                    System.out.println();

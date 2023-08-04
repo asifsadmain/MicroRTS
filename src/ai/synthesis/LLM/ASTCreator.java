@@ -45,128 +45,128 @@ class Segment {
 }
 
 public class ASTCreator {
-//  public static void main(String[] args) {
-//    String expr = "for(Unit u){\n" +
-//      "  u.attack(Closest)\n" +
-//      "  for(Unit u){\n" +
-//      "    for(Unit u){\n" +
-//      "      u.idle()\n" +
-//      "      u.harvest(6)\n" +
-//      "    }\n" +
-//      "   u.train(Worker,Left,25)\n" +
-//      "   u.moveToUnit(Ally,Closest)\n" +
-//      "  }\n" +
-//      "  for(Unit u){\n" +
-//      "   u.moveToUnit(Enemy,Weakest)\n" +
-//      "   u.train(Worker,Left,25)\n" +
-//      "  }\n" +
-//      "}";
-//
-//    String expr2 = "for(Unit u) {\n" +
-//      "  if(u.canHarvest()) {\n" +
-//      "    u.harvest(2)\n" +
-//      "  }\n" +
-//      "  else {\n" +
-//      "    u.attack(Closest)\n" +
-//      "  }\n" +
-//      "}";
-//
-//    String expr3 = "for(Unit u){\n" +
-//      "  if(u.CanAttack) then {\n" +
-//      "    u.attack(Closest)\n" +
-//      "  }\n" +
-//      "  if(u.HasNumberOfWorkersHarvesting(0)) then {\n" +
-//      "// Test comment\n" +
-//      "    u.harvest(5)\n" +
-//      "  }\n" +
-//      "  if(u.HasNumberOfWorkersHarvesting(1)) then {\n" +
-//      "    u.build(Barracks, EnemyDir, 6)\n" +
-//      "  }\n" +
-//      "  if(u.HasNumberOfWorkersHarvesting(2)) then {\n" +
-//      "    u.train(Light, Left, 8)\n" +
-//      "  }\n" +
-//      "  if(u.HasNumberOfWorkersHarvesting(3)) then {\n" +
-//      "    u.train(Heavy, Up, 5)\n" +
-//      "  }\n" +
-//      "  if(u.HasNumberOfWorkersHarvesting(4)) then {\n" +
-//      "    u.train(Ranged, EnemyDir, 10)\n" +
-//      "  }\n" +
-//      "  if(u.HasNumberOfWorkersHarvesting(5)) then {\n" +
-//      "    u.train(Ranged, EnemyDir, 50)\n" +
-//      "  }\n" +
-//      "  if(u.HasNumberOfWorkersHarvesting(6)) then {\n" +
-//      "    u.train(Ranged, EnemyDir, 100)\n" +
-//      "  }\n" +
-//      "  if(u.HasNumberOfWorkersHarvesting(7)) then {\n" +
-//      "    u.train(Ranged, EnemyDir, 8)\n" +
-//      "  }\n" +
-//      "  if(u.HasNumberOfWorkersHarvesting(8)) then {\n" +
-//      "    u.train(Ranged, EnemyDir, 25)\n" +
-//      "  }\n" +
-//      "}";
-//
-//    String expr4 = "for(Unit u){\n" +
-//      "    u.harvest(1)\n" +
-//      "    u.train(Worker, EnemyDir, 8)\n" +
-//      "    if(u.isBuilder()) then {\n" +
-//      "            u.train(Ranged, EnemyDir, 7)\n" +
-//      "        } else if (u.canHarvest()) then {\n" +
-//      "            u.attack(LessHealthy)\n" +
-//      "        } else if (u.canAttack()) then {\n" +
-//      "            u.attack(Closest)\n" +
-//      "        }\n" +
-//      "}\n" +
-//      "\n" +
-//      "for(Unit u){\n" +
-//      "    u.build(Barracks, EnemyDir, 6)\n" +
-//      "}\n" +
-//      "\n" +
-//      "for(Unit u){\n" +
-//      "    u.moveToUnit(Enemy, LessHealthy)\n" +
-//      "    u.moveToUnit(Enemy, Farthest)\n" +
-//      "    for(Unit u){\n" +
-//      "        u.harvest(50)\n" +
-//      "        for(Unit u){\n" +
-//      "            u.train(Light, Left, 6)\n" +
-//      "        }\n" +
-//      "        for(Unit u){\n" +
-//      "            u.idle()\n" +
-//      "        }\n" +
-//      "    }\n" +
-//      "}";
-//
-//    String expr5 = "for(Unit u){\n" +
-//      "  if(u.canHarvest()) then {\n" +
-//      "    u.attack(Closest)\n" +
-//      "    if(u.opponentHasNumberOfUnits(Ranged, 5)) then {\n" +
-//      "      u.build(Ranged, Up, 6)\n" +
-//      "    }\n" +
-//      "  }\n" +
-//      "  for(Unit u){\n" +
-//      "    for(Unit u){\n" +
-//      "      u.idle()\n" +
-//      "      u.harvest(6)\n" +
-//      "    }\n" +
-//      "   u.train(Worker,Left,25)\n" +
-//      "   u.moveToUnit(Ally,Closest)\n" +
-//      "  }\n" +
-//      "}";
-//
-////    S_LS AST1 = createAST(expr);
-////    System.out.println(AST1.translateIndentation(2));
-////    System.out.println("####################################");
-////    S_LS AST2 = createAST(expr2);
-////    System.out.println(AST2.translateIndentation(2));
+  public static void main(String[] args) {
+    String expr = "for(Unit u){\n" +
+      "  u.attack(Closest)\n" +
+      "  for(Unit u){\n" +
+      "    for(Unit u){\n" +
+      "      u.idle()\n" +
+      "      u.harvest(6)\n" +
+      "    }\n" +
+      "   u.train(Worker,Left,25)\n" +
+      "   u.moveToUnit(Ally,Closest)\n" +
+      "  }\n" +
+      "  for(Unit u){\n" +
+      "   u.moveToUnit(Enemy,Weakest)\n" +
+      "   u.train(Worker,Left,25)\n" +
+      "  }\n" +
+      "}";
+
+    String expr2 = "for(Unit u) {\n" +
+      "  if(u.canHarvest()) {\n" +
+      "    u.harvest(2)\n" +
+      "  }\n" +
+      "  else {\n" +
+      "    u.attack(Closest)\n" +
+      "  }\n" +
+      "}";
+
+    String expr3 = "for(Unit u){\n" +
+      "  if(u.CanAttack) then {\n" +
+      "    u.attack(Closest)\n" +
+      "  }\n" +
+      "  if(u.HasNumberOfWorkersHarvesting(0)) then {\n" +
+      "// Test comment\n" +
+      "    u.harvest(5)\n" +
+      "  }\n" +
+      "  if(u.HasNumberOfWorkersHarvesting(1)) then {\n" +
+      "    u.build(Barracks, EnemyDir, 6)\n" +
+      "  }\n" +
+      "  if(u.HasNumberOfWorkersHarvesting(2)) then {\n" +
+      "    u.train(Light, Left, 8)\n" +
+      "  }\n" +
+      "  if(u.HasNumberOfWorkersHarvesting(3)) then {\n" +
+      "    u.train(Heavy, Up, 5)\n" +
+      "  }\n" +
+      "  if(u.HasNumberOfWorkersHarvesting(4)) then {\n" +
+      "    u.train(Ranged, EnemyDir, 10)\n" +
+      "  }\n" +
+      "  if(u.HasNumberOfWorkersHarvesting(5)) then {\n" +
+      "    u.train(Ranged, EnemyDir, 50)\n" +
+      "  }\n" +
+      "  if(u.HasNumberOfWorkersHarvesting(6)) then {\n" +
+      "    u.train(Ranged, EnemyDir, 100)\n" +
+      "  }\n" +
+      "  if(u.HasNumberOfWorkersHarvesting(7)) then {\n" +
+      "    u.train(Ranged, EnemyDir, 8)\n" +
+      "  }\n" +
+      "  if(u.HasNumberOfWorkersHarvesting(8)) then {\n" +
+      "    u.train(Ranged, EnemyDir, 25)\n" +
+      "  }\n" +
+      "}";
+
+    String expr4 = "for(Unit u){\n" +
+      "    u.harvest(1)\n" +
+      "    u.train(Worker, EnemyDir, 8)\n" +
+      "    if(u.isBuilder()) then {\n" +
+      "            u.train(Ranged, EnemyDir, 7)\n" +
+      "        } else if (u.canHarvest()) then {\n" +
+      "            u.attack(LessHealthy)\n" +
+      "        } else if (u.canAttack()) then {\n" +
+      "            u.attack(Closest)\n" +
+      "        }\n" +
+      "}\n" +
+      "\n" +
+      "for(Unit u){\n" +
+      "    u.build(Barracks, EnemyDir, 6)\n" +
+      "}\n" +
+      "\n" +
+      "for(Unit u){\n" +
+      "    u.moveToUnit(Enemy, LessHealthy)\n" +
+      "    u.moveToUnit(Enemy, Farthest)\n" +
+      "    for(Unit u){\n" +
+      "        u.harvest(50)\n" +
+      "        for(Unit u){\n" +
+      "            u.train(Light, Left, 6)\n" +
+      "        }\n" +
+      "        for(Unit u){\n" +
+      "            u.idle()\n" +
+      "        }\n" +
+      "    }\n" +
+      "}";
+
+    String expr5 = "for(Unit u){\n" +
+      "  if(u.canHarvest()) then {\n" +
+      "    u.attack(Closest)\n" +
+      "    if(u.opponentHasNumberOfUnits(Ranged, 5)) then {\n" +
+      "      u.build(Ranged, Up, 6)\n" +
+      "    }\n" +
+      "  }\n" +
+      "  for(Unit u){\n" +
+      "    for(Unit u){\n" +
+      "      u.idle()\n" +
+      "      u.harvest(6)\n" +
+      "    }\n" +
+      "   u.train(Worker,Left,25)\n" +
+      "   u.moveToUnit(Ally,Closest)\n" +
+      "  }\n" +
+      "}";
+
+//    S_LS AST1 = createAST(expr);
+//    System.out.println(AST1.translateIndentation(2));
 //    System.out.println("####################################");
-//    S_LS AST3 = createAST(expr4);
-//    System.out.println(AST3.translateIndentation(2));
+//    S_LS AST2 = createAST(expr2);
+//    System.out.println(AST2.translateIndentation(2));
+    System.out.println("####################################");
+    S_LS AST3 = createAST(expr2);
+    System.out.println(AST3.translateIndentation(2));
+    System.out.println("####################################");
+//    S_LS AST4 = createAST(expr4);
+//    System.out.println(AST4.translateIndentation(2));
 //    System.out.println("####################################");
-////    S_LS AST4 = createAST(expr4);
-////    System.out.println(AST4.translateIndentation(2));
-////    System.out.println("####################################");
-////    S_LS AST5 = createAST(expr5);
-////    System.out.println(AST5.translateIndentation(2));
-//  }
+//    S_LS AST5 = createAST(expr5);
+//    System.out.println(AST5.translateIndentation(2));
+  }
 
   public static List<String> extractContentInBrackets(String str) {
     // Find the starting and ending indices of the brackets
