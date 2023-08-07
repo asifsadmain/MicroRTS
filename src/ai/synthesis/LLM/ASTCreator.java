@@ -67,7 +67,7 @@ public class ASTCreator {
       "    u.harvest(2)\n" +
       "  }\n" +
       "  else {\n" +
-      "    u.attack(Closest)\n" +
+      "    u.attack(Closest)  // Attack units\n" +
       "  }\n" +
       "}";
 
@@ -158,8 +158,10 @@ public class ASTCreator {
 //    S_LS AST2 = createAST(expr2);
 //    System.out.println(AST2.translateIndentation(2));
     System.out.println("####################################");
-    S_LS AST3 = createAST(expr2);
-    System.out.println(AST3.translateIndentation(2));
+    S_LS AST3 = createAST(expr5);
+    String strat = AST3.translateIndentation(1);
+    strat = strat.replace("idle", "attackIfInRange");
+    System.out.println(strat);
     System.out.println("####################################");
 //    S_LS AST4 = createAST(expr4);
 //    System.out.println(AST4.translateIndentation(2));
@@ -239,7 +241,7 @@ public class ASTCreator {
       s = new S_LS(new C_LS(new Attack_LS(new OpponentPolicy(parameters.get(0)))));
     } else if (command.startsWith("u.harvest")) {
       s = new S_LS(new C_LS(new Harvest_LS(new N(parameters.get(0)))));
-    } else if (command.startsWith("u.attackIfInRange")) {
+    } else if (command.startsWith("u.attackIfInRange") || command.startsWith("u.idle")) {
       s = new S_LS(new C_LS(new Idle_LS()));
     } else if (command.startsWith("u.moveAway")) {
       s = new S_LS(new C_LS(new MoveAway_LS()));
@@ -341,7 +343,39 @@ public class ASTCreator {
     return false;
   }
 
+  public static String removeAllInlineComments(String codeSnippet) {
+    StringBuilder processedCode = new StringBuilder();
+    String[] lines = codeSnippet.split("\n");
+
+    for (String line : lines) {
+      processedCode.append(removeComment(line)).append("\n");
+    }
+
+    return processedCode.toString().trim(); // Trim to remove trailing newline
+  }
+
+  public static String removeComment(String line) {
+    // Removing single line comments
+    int commentIndex = line.indexOf("//");
+    if (commentIndex != -1) {
+      line = line.substring(0, commentIndex);
+    }
+
+    // Removing block comments
+    commentIndex = line.indexOf("/*");
+    if (commentIndex != -1) {
+      int endCommentIndex = line.indexOf("*/", commentIndex);
+      if (endCommentIndex != -1) {
+        line = line.substring(0, commentIndex) + line.substring(endCommentIndex + 2);
+      }
+    }
+
+    return line.trim();
+  }
+
   public static S_LS createAST(String expr) {
+    expr = removeAllInlineComments(expr);
+
     Stack<Segment> stack = new Stack<>();
     int commandStart = 0;
     Segment segments = new Segment("strategy");
@@ -472,6 +506,7 @@ public class ASTCreator {
             finishedSegment.s = new S_LS(new Empty_LS());
 //            System.out.println(finishedSegment.s.getChild().getName());
           }
+//          System.out.println(finishedSegment.s.getChild().getName());
 
           if (!stack.isEmpty()) {
             stack.peek().add(finishedSegment);
