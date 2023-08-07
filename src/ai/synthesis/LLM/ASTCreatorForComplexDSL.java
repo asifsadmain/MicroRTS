@@ -243,6 +243,8 @@ public class ASTCreatorForComplexDSL {
             s = new S_LS(new C_LS(new Idle_LS()));
         } else if (command.startsWith("u.moveAway")) {
             s = new S_LS(new C_LS(new MoveAway_LS()));
+        } else if (command.startsWith("empty")) {
+            s = new S_LS(new Empty_LS());
         } else {
             return null;
         }
