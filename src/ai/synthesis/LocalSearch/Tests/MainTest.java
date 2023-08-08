@@ -1,6 +1,7 @@
 package ai.synthesis.LocalSearch.Tests;
 
 import ai.synthesis.ComplexDSL.CS.CS_Default;
+import ai.synthesis.ComplexDSL.DO.DO;
 import ai.synthesis.ComplexDSL.IAs2.Algoritmo1;
 import ai.synthesis.LLM.ASTCreator;
 import ai.synthesis.LLM.ASTCreatorForComplexDSL;
@@ -130,8 +131,13 @@ public class MainTest {
 //			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new CS_Default());
 			se2.runWithLLM(gs2, max, args[0]);
 		}
-		
-		
+
+		if(args[1].equals("6")) {
+			System.out.println("Algorithm: DO");
+			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.HC(2000), new DO());
+//			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new CS_Default());
+			se2.run(gs2, max);
+		}
 	}
 
 }
