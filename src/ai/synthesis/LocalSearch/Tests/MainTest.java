@@ -6,10 +6,8 @@ import ai.synthesis.ComplexDSL.IAs2.Algoritmo1;
 import ai.synthesis.LLM.ASTCreator;
 import ai.synthesis.LLM.ASTCreatorForComplexDSL;
 import ai.synthesis.LLM.GPT35Request;
+import ai.synthesis.LocalSearch.IAs2.*;
 import ai.synthesis.LocalSearch.IAs2.Evaluation;
-import ai.synthesis.LocalSearch.IAs2.EvaluatorSP;
-import ai.synthesis.LocalSearch.IAs2.SA;
-import ai.synthesis.LocalSearch.IAs2.SelfPlay;
 import ai.synthesis.LocalSearch.LS_CFG.Node_LS;
 import ai.synthesis.LocalSearch.TwoLevelSearch.*;
 import rts.GameState;
@@ -51,20 +49,20 @@ public class MainTest {
 		
 		if(args[1].equals("0")) {
 			System.out.println("Algorithm: Naive IBR");
-			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new EvaluatorSP(1,null));
+			SelfPlay se2 = new SelfPlay(new HC(2000), new EvaluatorSP(1,null));
 			se2.run(gs2, max);
 		}
 				
 		if(args[1].equals("1")) {
 			System.out.println("Algorithm: Naive FP");
-			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new EvaluatorSP(1000,null));
+			SelfPlay se2 = new SelfPlay(new HC(2000), new EvaluatorSP(1000,null));
 			se2.run(gs2, max);
 		}
 
 		if(args[1].equals("2")) {
 			System.out.println("Algorithm: LL");
 			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.SA(time,2000,0.9,0.5), new CS_Default());
-//			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new CS_Default());
+//			SelfPlay se2 = new SelfPlay(new HC(2000), new CS_Default());
 			se2.run(gs2, max);
 		}
 
@@ -85,7 +83,7 @@ public class MainTest {
 				}
 			}
 
-			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new EvaluatorSP(1,null, js));
+			SelfPlay se2 = new SelfPlay(new HC(2000), new EvaluatorSP(1,null, js));
 			se2.runWithLLM(gs2, max, args[0]);
 		}
 
@@ -106,7 +104,7 @@ public class MainTest {
 				}
 			}
 
-			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new EvaluatorSP(1000,null, js));
+			SelfPlay se2 = new SelfPlay(new HC(2000), new EvaluatorSP(1000,null, js));
 			se2.runWithLLM(gs2, max, args[0]);
 		}
 
@@ -128,14 +126,14 @@ public class MainTest {
 			}
 
 			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.SA(time,2000,0.9,0.5), new CS_Default(js));
-//			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new CS_Default());
+//			SelfPlay se2 = new SelfPlay(new HC(2000), new CS_Default());
 			se2.runWithLLM(gs2, max, args[0]);
 		}
 
 		if(args[1].equals("6")) {
 			System.out.println("Algorithm: DO");
 			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.HC(2000), new DO());
-//			SelfPlay se2 = new SelfPlay(new SA(time,2000,0.9,0.5), new CS_Default());
+//			SelfPlay se2 = new SelfPlay(new HC(2000), new CS_Default());
 			se2.run(gs2, max);
 		}
 	}

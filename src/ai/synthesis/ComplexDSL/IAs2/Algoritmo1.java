@@ -50,17 +50,17 @@ public class Algoritmo1 {
 
 			strategyList.add(j.translateIndentation(1));
 
-			List<String> lastFiveStrategies = new ArrayList<String>();
+			List<String> lastThreeStrategies = new ArrayList<String>();
 
-			if (strategyList.size() < 5) {
-				lastFiveStrategies = strategyList;
+			if (strategyList.size() < 3) {
+				lastThreeStrategies = strategyList;
 			} else {
-				lastFiveStrategies = strategyList.subList(strategyList.size() - 5, strategyList.size());
+				lastThreeStrategies = strategyList.subList(strategyList.size() - 3, strategyList.size());
 			}
 
 //      System.out.println("At the beginning: " + Control.save(j));
 
-			for (int i = 0; i < 7; i++) {
+			for (int i = 0; i < 5; i++) {
 //        System.out.println("i = " + i);
 //        System.out.println();
 //        System.out.println();
@@ -73,7 +73,7 @@ public class Algoritmo1 {
 				Node_LS c0 = null;
 				while (!isSuccess) {
 					try {
-						counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastFiveStrategies, mapNumber);
+						counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastThreeStrategies, mapNumber);
 						c0 = ASTCreatorForComplexDSL.createAST(counterStrategy);
 //            System.out.println();
 //            System.out.println("-------- Counter Strategy ---------");
@@ -88,16 +88,6 @@ public class Algoritmo1 {
 					}
 				}
 
-				SimplePlayout playout = new SimplePlayout();
-				UnitTypeTable utt = new UnitTypeTable(2);
-				double score = 0.0;
-				AI ai1 = new Interpreter(utt, c0);
-
-				for (Node_LS individuo : individuos) {
-					AI ai2 = new Interpreter(utt, individuo);
-					score += playout.run(gs, utt,0, max, ai1, ai2, false).m_a;
-				}
-
 				double r0 = ava.Avalia(gs, max, c0);
 				double r1 = ava.Avalia(gs, max, j);
 
@@ -106,6 +96,18 @@ public class Algoritmo1 {
 					foundInLLM = true;
 //          System.out.println("LLM counter strategy: " + Control.save(c0));
 					break;
+				}
+
+				SimplePlayout playout = new SimplePlayout();
+				UnitTypeTable utt = new UnitTypeTable(2);
+				double score = 0.0;
+				AI ai1 = new Interpreter(utt, c0);
+
+				for (Node_LS individuo : individuos) {
+					AI ai2 = new Interpreter(utt, individuo);
+					score += playout.run(gs, utt,0, max, ai1, ai2, false).m_a;
+					score += playout.run(gs, utt,1, max, ai1, ai2, false).m_a;
+					score = score / 2.0;
 				}
 
 				if (score > scoreLLM) {

@@ -61,7 +61,7 @@ public class GPT35Request {
             "T -> Base | Barracks | Ranged | Heavy | Light | Worker\\n" +
             "N -> 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 15 | 20 | 25 | 50 | 100\\n" +
             "D -> EnemyDir | Up | Down | Right | Left\\n" +
-            "O_p -> Strongest | Weakest | Closest | Farthest | LessHealthy | MostHealthy | Random\\n" +
+            "O_p -> Strongest | Weakest | Closest | Farthest | LessHealthy | MostHealthy\\n" +
             "T_p -> Ally | Enemy\\n" +
             "</CFG>\\n\\n";
 
