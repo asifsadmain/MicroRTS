@@ -9,7 +9,9 @@ import ai.synthesis.LLM.ASTCreator;
 import ai.synthesis.LLM.ASTCreatorForComplexDSL;
 import ai.synthesis.LLM.GPT35Request;
 import rts.GameState;
+import rts.PlayerAction;
 import rts.units.UnitTypeTable;
+import util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,9 +107,12 @@ public class Algoritmo1 {
 
 				for (Node_LS individuo : individuos) {
 					AI ai2 = new Interpreter(utt, individuo);
-					score += playout.run(gs, utt,0, max, ai1, ai2, false).m_a;
-					score += playout.run(gs, utt,1, max, ai1, ai2, false).m_a;
+					Pair<Double, ArrayList<PlayerAction>> scoreActionPair = playout.runV2(gs, utt,0, max, ai1, ai2, false);
+					score += scoreActionPair.m_a;
+//					score += playout.run(gs, utt,0, max, ai1, ai2, false).m_a;
+					score += playout.runV2(gs, utt,1, max, ai1, ai2, false).m_a;
 					score = score / 2.0;
+					System.out.println(scoreActionPair.m_b.toString());
 				}
 
 				if (score > scoreLLM) {

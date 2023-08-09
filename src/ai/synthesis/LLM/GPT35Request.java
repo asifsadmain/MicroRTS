@@ -265,7 +265,7 @@ public class GPT35Request {
         return strategy;
     }
 
-    public static String getBestResponseStrategy(String strategy, List<String> lastFiveStrategies, String mapNumber) throws IOException, InterruptedException {
+    public static String getBestResponseStrategy(String strategy, List<String> lastThreeStrategies, String mapNumber) throws IOException, InterruptedException {
         String mapDetails = "";
         if (mapNumber.equals("1")) {
             mapDetails = mapDetails24x24;
@@ -283,22 +283,22 @@ public class GPT35Request {
         strategy = strategy.replace("idle", "attackIfInRange");
 //    System.out.println(strategy);
 
-        lastFiveStrategies.replaceAll(s -> s.replace("\n", "\\n").replace("\t", " ").replace("idle", "attackIfInRange"));
+        lastThreeStrategies.replaceAll(s -> s.replace("\n", "\\n").replace("\t", " ").replace("idle", "attackIfInRange"));
 
-        StringBuilder lastFiveBestRespones = new StringBuilder("The following is a sequence of " + lastFiveStrategies.size() + " strategies where strategy 2 is the counter strategy " +
+        StringBuilder lastThreeBestRespones = new StringBuilder("The following is a sequence of " + lastThreeStrategies.size() + " strategies where strategy 2 is the counter strategy " +
                 "of strategy 1, strategy 3 is the counter strategy of strategy 2,..., strategy n is the counter strategy of strategy (n-1). The strategies are written in" +
-                " the <Strategy'n'></Strategy'n'> tag where n is an integer from 1 to 5.\\n" +
+                " the <Strategy'n'></Strategy'n'> tag where n is an integer from 1 to 3.\\n" +
                 "Sequence of Strategies:\\n" +
                 "```");
 
-        for (int i = 0; i < lastFiveStrategies.size(); i++) {
-            lastFiveBestRespones.append("<Strategy").append(i + 1).append(">:\\n").append(lastFiveStrategies.get(i)).append("\\n</Strategy").append(i + 1).append(">\\n");
+        for (int i = 0; i < lastThreeStrategies.size(); i++) {
+            lastThreeBestRespones.append("<Strategy").append(i + 1).append(">:\\n").append(lastThreeStrategies.get(i)).append("\\n</Strategy").append(i + 1).append(">\\n");
         }
-        lastFiveBestRespones.append("```\\n\\n");
+        lastThreeBestRespones.append("```\\n\\n");
 
-        if (lastFiveStrategies.size() < 3) lastFiveBestRespones = new StringBuilder();
+        if (lastThreeStrategies.size() < 3) lastThreeBestRespones = new StringBuilder();
 
-        String bestResponseStrategyRequest = mapDetails + DSL + DSLExplanation + lastFiveBestRespones.toString() +
+        String bestResponseStrategyRequest = mapDetails + DSL + DSLExplanation + lastThreeBestRespones.toString() +
                 "Now I have the following strategy that satisfies the DSL, written inside <strategy></strategy> tag:\\n" +
                 "<strategy>\\n" + strategy + "</strategy>\\n\\n" +
                 "Now your tasks are the following:\\n" +

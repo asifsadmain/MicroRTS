@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class EvaluateLast {
     public static void main(String[] args) throws Exception {
-        int LINES = 120;
+        int LINES = 180;
         int RUNS = 40;
         String[] maps = new String[1];
         String path_map = "";
@@ -40,7 +40,15 @@ public class EvaluateLast {
         } else if (args[0].equals("4")) {
             maps[0] = "16x16";
             path_map = "maps/16x16/basesWorkers16x16A.xml";
+        } else if (args[0].equals("5")) {
+            maps[0] = "32x32";
+            path_map = "maps/32x32/basesWorkers32x32A.xml";
         }
+
+        int minLimit = Integer.parseInt(args[1]);
+        int maxLimit = Integer.parseInt(args[2]);
+        System.out.println("min = " + args[1]);
+        System.out.println("max = " + args[2]);
 //        String[] algorithms = {"FP", "FP_LLM", "LL", "LL_LLM"};
 //        String[] algorithms = {"IBR", "IBR_LLM", "FP", "FP_LLM"};
 //        String[] algorithms = {"IBR", "FP", "LL", "LL_LLM"};
@@ -125,7 +133,7 @@ public class EvaluateLast {
                 finalStrategies.put(algorithm, strategies);
             }
 
-            for (int i = 0; i < LINES; i++) {
+            for (int i = minLimit; i < maxLimit; i++) {
                 double[] r = {0.0, 0.0, 0.0, 0.0};
                 for (int j = 0; j < RUNS; j++) {
                     List<String> strategies = new ArrayList<String>();
