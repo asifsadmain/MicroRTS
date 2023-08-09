@@ -96,11 +96,30 @@ public class SelfPlay {
                 Pair<Double, ArrayList<PlayerAction>> scoreActionPair2 = playout.runV2(gs, utt,0, max, ai1, ai3, false);
 
                 if (scoreActionPair.m_a != 1.0 && scoreActionPair2.m_a != 1.0) {
+                    String actionSeq = "";
                     if (scoreActionPair.m_a <= scoreActionPair2.m_a) {
-                        System.out.println(scoreActionPair.m_b.toString());
+                        actionSeq = scoreActionPair.m_b.toString();
                     } else {
-                        System.out.println(scoreActionPair2.m_b.toString());
+                        actionSeq = scoreActionPair2.m_b.toString();
                     }
+                    actionSeq = actionSeq.replace("Base", "B")
+                            .replace("Worker", "W")
+                            .replace("left", "l")
+                            .replace("right", "r")
+                            .replace("up", "u")
+                            .replace("down", "d")
+                            .replace("Ranged", "Rg")
+                            .replace("Light", "Li")
+                            .replace("Heavy", "Hv")
+                            .replace("Barracks", "Br")
+                            .replace("attack_location", "att_loc")
+                            .replace("return", "ret")
+                            .replace("wait", "wt")
+                            .replace("move", "mv")
+                            .replace("produce", "prod")
+                            .replace("harvest", "har");
+
+                    System.out.println(actionSeq);
                 }
 
                 double r0 = ava.evaluation(gs, max, c0);
