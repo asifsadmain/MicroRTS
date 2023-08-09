@@ -61,7 +61,7 @@ public class MainTest {
 
 		if(args[1].equals("2")) {
 			System.out.println("Algorithm: LL");
-			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.SA(time,2000,0.9,0.5), new CS_Default());
+			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.HC(2000), new CS_Default());
 //			SelfPlay se2 = new SelfPlay(new HC(2000), new CS_Default());
 			se2.run(gs2, max);
 		}
@@ -125,7 +125,7 @@ public class MainTest {
 				}
 			}
 
-			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.SA(time,2000,0.9,0.5), new CS_Default(js));
+			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.HC(2000), new CS_Default(js));
 //			SelfPlay se2 = new SelfPlay(new HC(2000), new CS_Default());
 			se2.runWithLLM(gs2, max, args[0]);
 		}

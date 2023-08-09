@@ -90,6 +90,23 @@ public class Algoritmo1 {
 					}
 				}
 
+				SimplePlayout playout = new SimplePlayout();
+				UnitTypeTable utt = new UnitTypeTable(2);
+				double score = 0.0;
+				AI ai1 = new Interpreter(utt, c0);
+				AI ai3 = new Interpreter(utt, j);
+
+				Pair<Double, ArrayList<PlayerAction>> scoreActionPair = playout.runV2(gs, utt,0, max, ai1, ai3, false);
+				Pair<Double, ArrayList<PlayerAction>> scoreActionPair2 = playout.runV2(gs, utt,0, max, ai1, ai3, false);
+
+				if (scoreActionPair.m_a != 1.0 && scoreActionPair2.m_a != 1.0) {
+					if (scoreActionPair.m_a <= scoreActionPair2.m_a) {
+						System.out.println(scoreActionPair.m_b.toString());
+					} else {
+						System.out.println(scoreActionPair2.m_b.toString());
+					}
+				}
+
 				double r0 = ava.Avalia(gs, max, c0);
 				double r1 = ava.Avalia(gs, max, j);
 
@@ -100,19 +117,14 @@ public class Algoritmo1 {
 					break;
 				}
 
-				SimplePlayout playout = new SimplePlayout();
-				UnitTypeTable utt = new UnitTypeTable(2);
-				double score = 0.0;
-				AI ai1 = new Interpreter(utt, c0);
-
 				for (Node_LS individuo : individuos) {
 					AI ai2 = new Interpreter(utt, individuo);
-					Pair<Double, ArrayList<PlayerAction>> scoreActionPair = playout.runV2(gs, utt,0, max, ai1, ai2, false);
-					score += scoreActionPair.m_a;
-//					score += playout.run(gs, utt,0, max, ai1, ai2, false).m_a;
-					score += playout.runV2(gs, utt,1, max, ai1, ai2, false).m_a;
+//					Pair<Double, ArrayList<PlayerAction>> scoreActionPair = playout.runV2(gs, utt,0, max, ai1, ai2, false);
+//					score += scoreActionPair.m_a;
+					score += playout.run(gs, utt,0, max, ai1, ai2, false).m_a;
+					score += playout.run(gs, utt,1, max, ai1, ai2, false).m_a;
 					score = score / 2.0;
-					System.out.println(scoreActionPair.m_b.toString());
+//					System.out.println(scoreActionPair.m_b.toString());
 				}
 
 				if (score > scoreLLM) {
