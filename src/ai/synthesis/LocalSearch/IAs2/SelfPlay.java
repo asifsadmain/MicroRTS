@@ -2,6 +2,7 @@ package ai.synthesis.LocalSearch.IAs2;
 
 import ai.core.AI;
 import ai.synthesis.LLM.ASTCreator;
+import ai.synthesis.LLM.ASTCreatorForComplexDSL;
 import ai.synthesis.LLM.GPT35Request;
 import ai.synthesis.LocalSearch.EvaluateGameState.SimplePlayout;
 import ai.synthesis.LocalSearch.LS_CFG.Node_LS;
@@ -30,7 +31,7 @@ public class SelfPlay {
     }
 
 
-    public void runWithLLM(GameState gs, int max, String mapNumber) throws Exception {
+    public void runWithLLM(GameState gs, int max, String mapNumber, boolean feedbackFlag) throws Exception {
         List<String> strategyList = new ArrayList<String>();
         List<Node_LS> individuos = ava.getIndividuos();
 
@@ -45,6 +46,8 @@ public class SelfPlay {
             Node_LS j = ava.getIndividuo();
             Node_LS searchStart = j;
             double scoreLLM = -99999.0;
+            String actionSeq = "";
+            String failedCounterStrategy = "";
 
             strategyList.add(j.translateIndentation(1));
 
@@ -71,7 +74,11 @@ public class SelfPlay {
                 Node_LS c0 = null;
                 while (!isSuccess) {
                     try {
-                        counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastThreeStrategies, mapNumber);
+                        if (feedbackFlag) {
+                            counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastThreeStrategies, mapNumber, actionSeq, failedCounterStrategy);
+                        } else {
+                            counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastThreeStrategies, mapNumber, "", failedCounterStrategy);
+                        }
                         c0 = ASTCreator.createAST(counterStrategy);
 //            System.out.println();
 //            System.out.println("-------- Counter Strategy ---------");
@@ -89,6 +96,7 @@ public class SelfPlay {
                 SimplePlayout playout = new SimplePlayout();
                 UnitTypeTable utt = new UnitTypeTable(2);
                 double score = 0.0;
+                failedCounterStrategy = counterStrategy;
                 AI ai1 = new Interpreter(utt, c0);
                 AI ai3 = new Interpreter(utt, j);
 
@@ -96,14 +104,13 @@ public class SelfPlay {
                 Pair<Double, ArrayList<PlayerAction>> scoreActionPair2 = playout.runV2(gs, utt,1, max, ai1, ai3, false);
 
                 if (scoreActionPair.m_a != 1.0 && scoreActionPair2.m_a != 1.0) {
-                    String actionSeq = "";
                     if (scoreActionPair.m_a <= scoreActionPair2.m_a) {
                         actionSeq = GPT35Request.mapActions(scoreActionPair.m_b);
                     } else {
                         actionSeq = GPT35Request.mapActions(scoreActionPair2.m_b);
                     }
 
-                    System.out.println(actionSeq);
+//                    System.out.println(actionSeq);
                 }
 
                 double r0 = ava.evaluation(gs, max, c0);

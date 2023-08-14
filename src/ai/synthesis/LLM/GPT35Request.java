@@ -239,7 +239,7 @@ public class GPT35Request {
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         String responseBody = response.body();
-//    System.out.println(responseBody);
+    System.out.println(responseBody);
 
         JSONObject jo = new JSONObject(responseBody);
 
@@ -287,7 +287,7 @@ public class GPT35Request {
         return strategy;
     }
 
-    public static String getBestResponseStrategy(String strategy, List<String> lastThreeStrategies, String mapNumber) throws IOException, InterruptedException {
+    public static String getBestResponseStrategy(String strategy, List<String> lastThreeStrategies, String mapNumber, String actionSeq, String failedCounterStrategy) throws IOException, InterruptedException {
         String mapDetails = "";
         if (mapNumber.equals("1")) {
             mapDetails = mapDetails24x24;
@@ -320,18 +320,58 @@ public class GPT35Request {
 
         if (lastThreeStrategies.size() < 3) lastThreeBestRespones = new StringBuilder();
 
-        String bestResponseStrategyRequest = mapDetails + DSL + DSLExplanation + lastThreeBestRespones.toString() +
-                "Now I have the following strategy that satisfies the DSL, written inside <strategy></strategy> tag:\\n" +
+        String prevStrategy = "Here is the last strategy:\\n" +
+                "last strategy:\\n" +
+                "```\\n" +
+                lastThreeStrategies.get(lastThreeStrategies.size() - 1) +
+                "\\n```\\n\\n";
+
+        String prevCounterStrategy = "Here is a counter strategy that could not defeat the last strategy:\\n+" +
+                "```\\n" +
+                failedCounterStrategy.replace("\n", "\\n") +
+                "\\n```\\n\\n";
+
+        String encodings = "The following is an encoding of the units:\\n" +
+                "Base : B\\n" +
+                "Worker : W\\n" +
+                "Ranged : Rg\\n" +
+                "Light : Li\\n" +
+                "Heavy : Hv\\n" +
+                "Barracks : Br\\n" +
+                "\\n" +
+                "The following is an encoding of the actions:\\n" +
+                "attack_location : att_loc\\n" +
+                "return : ret\\n" +
+                "wait : wt\\n" +
+                "move : mv\\n" +
+                "produce : prod\\n" +
+                "harvest : har\\n" +
+                "\\n" +
+                "The following is an encoding of the directions:\\n" +
+                "left : l\\n" +
+                "right : r\\n" +
+                "up : u\\n" +
+                "down : d\\n\\n";
+
+        String sequenceOfActions = "The following is a randomly sampled sequence of actions of the match played between the last strategy" +
+                " as player 0 and the counter-strategy as player 1:\\n" + actionSeq + "\\n The counter strategy could not defeat the last strategy.\\n";
+
+        String finalInstructions = "Now I have the following strategy that satisfies the DSL, written inside <strategy></strategy> tag:\\n" +
                 "<strategy>\\n" + strategy + "</strategy>\\n\\n" +
                 "Now your tasks are the following:\\n" +
-                "1. Analyze this given strategy and try to analyze its weaknesses. For this analysis, you may take help from the sequence of strategies if provided.\\n" +
+                "1. Analyze this given strategy and try to analyze its weaknesses. For this analysis, you may take help from the sequence of actions of strategies if provided.\\n" +
                 "2. Write a counter strategy that can dominate and easily defeat the given strategy. You can attempt to train and use different types " +
                 "and combinations of units if you have not done so. \\n" +
                 "3. Don't forget to build barracks if it does not exits in the map and you want to write code to train heavy/ranged/light units.\\n" +
                 "4. You need to only write the counter strategy inside <counterStrategy></counterStrategy> tag.";
 
+        String bestResponseStrategyRequest = mapDetails + DSL + DSLExplanation + lastThreeBestRespones.toString() + finalInstructions;
+        if (!actionSeq.isEmpty()) {
+            bestResponseStrategyRequest = mapDetails + DSL + DSLExplanation + prevStrategy + prevCounterStrategy + encodings + sequenceOfActions + finalInstructions;
+        }
+
         String postBody = String.format(REQUEST_BODY_GPT_TURBO, bestResponseStrategyRequest);
-//    System.out.println(postBody);
+//        System.out.println(bestResponseStrategyRequest);
         String content = getResponseFromApi(postBody);
 
         Pattern pattern = Pattern.compile("<counterStrategy>(.*?)</counterStrategy>", Pattern.DOTALL);
@@ -363,6 +403,6 @@ public class GPT35Request {
                 "  }\n" +
                 "  u.idle()\n" +
                 "}";
-        System.out.println(getBestResponseStrategy(strategy, new ArrayList<>(), "1"));
+        System.out.println(getBestResponseStrategy(strategy, new ArrayList<>(), "1", "", ""));
     }
 }

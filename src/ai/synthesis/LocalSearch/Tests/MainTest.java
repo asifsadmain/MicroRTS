@@ -84,7 +84,7 @@ public class MainTest {
 			}
 
 			SelfPlay se2 = new SelfPlay(new HC(2000), new EvaluatorSP(1,null, js));
-			se2.runWithLLM(gs2, max, args[0]);
+			se2.runWithLLM(gs2, max, args[0], false);
 		}
 
 		if(args[1].equals("4")) {
@@ -105,7 +105,7 @@ public class MainTest {
 			}
 
 			SelfPlay se2 = new SelfPlay(new HC(2000), new EvaluatorSP(1000,null, js));
-			se2.runWithLLM(gs2, max, args[0]);
+			se2.runWithLLM(gs2, max, args[0], false);
 		}
 
 		if(args[1].equals("5")) {
@@ -127,7 +127,7 @@ public class MainTest {
 
 			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.HC(2000), new CS_Default(js));
 //			SelfPlay se2 = new SelfPlay(new HC(2000), new CS_Default());
-			se2.runWithLLM(gs2, max, args[0]);
+			se2.runWithLLM(gs2, max, args[0], true);
 		}
 
 		if(args[1].equals("6")) {

@@ -172,7 +172,7 @@ public class SimplePlayout implements Playout {
 		else if(gs2.winner()==player)r= 1;
 		else if (gs2.winner()==-1)r= 0.5;
 
-		int step = 10;
+		int step = 50;
 
 		List<Integer> selectedIdx = new ArrayList<Integer>();
 		Random random = new Random();
