@@ -97,7 +97,7 @@ public class Algoritmo1 {
 				AI ai3 = new Interpreter(utt, j);
 
 				Pair<Double, ArrayList<PlayerAction>> scoreActionPair = playout.runV2(gs, utt,0, max, ai1, ai3, false);
-				Pair<Double, ArrayList<PlayerAction>> scoreActionPair2 = playout.runV2(gs, utt,0, max, ai1, ai3, false);
+				Pair<Double, ArrayList<PlayerAction>> scoreActionPair2 = playout.runV2(gs, utt,1, max, ai1, ai3, false);
 
 				if (scoreActionPair.m_a != 1.0 && scoreActionPair2.m_a != 1.0) {
 					String actionSeq = "";
