@@ -2,6 +2,7 @@ package ai.synthesis.LLM;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import rts.PlayerAction;
 
 import java.io.IOException;
 import java.net.URI;
@@ -203,6 +204,27 @@ public class GPT35Request {
         }
 
         return String.join("\n", result);
+    }
+
+    public static String mapActions(ArrayList<PlayerAction> playerActions) {
+        String actionSeq = playerActions.toString().replace("Base", "B")
+                .replace("Worker", "W")
+                .replace("left", "l")
+                .replace("right", "r")
+                .replace("up", "u")
+                .replace("down", "d")
+                .replace("Ranged", "Rg")
+                .replace("Light", "Li")
+                .replace("Heavy", "Hv")
+                .replace("Barracks", "Br")
+                .replace("attack_location", "att_loc")
+                .replace("return", "ret")
+                .replace("wait", "wt")
+                .replace("move", "mv")
+                .replace("produce", "prod")
+                .replace("harvest", "har");
+
+        return actionSeq;
     }
 
     private static String getResponseFromApi(String postBody) throws IOException, InterruptedException {

@@ -102,26 +102,10 @@ public class Algoritmo1 {
 				if (scoreActionPair.m_a != 1.0 && scoreActionPair2.m_a != 1.0) {
 					String actionSeq = "";
 					if (scoreActionPair.m_a <= scoreActionPair2.m_a) {
-						actionSeq = scoreActionPair.m_b.toString();
+						actionSeq = GPT35Request.mapActions(scoreActionPair.m_b);
 					} else {
-						actionSeq = scoreActionPair2.m_b.toString();
+						actionSeq = GPT35Request.mapActions(scoreActionPair2.m_b);
 					}
-					actionSeq = actionSeq.replace("Base", "B")
-							.replace("Worker", "W")
-							.replace("left", "l")
-							.replace("right", "r")
-							.replace("up", "u")
-							.replace("down", "d")
-							.replace("Ranged", "Rg")
-							.replace("Light", "Li")
-							.replace("Heavy", "Hv")
-							.replace("Barracks", "Br")
-							.replace("attack_location", "att_loc")
-							.replace("return", "ret")
-							.replace("wait", "wt")
-							.replace("move", "mv")
-							.replace("produce", "prod")
-							.replace("harvest", "har");
 
 					System.out.println(actionSeq);
 				}
