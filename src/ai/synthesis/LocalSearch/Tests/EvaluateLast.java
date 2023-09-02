@@ -21,8 +21,8 @@ import java.util.Map;
 
 public class EvaluateLast {
     public static void main(String[] args) throws Exception {
-        int LINES = 180;
-        int RUNS = 40;
+        int LINES = 100;
+        int RUNS = 12;
         String[] maps = new String[1];
         String path_map = "";
         int max = 6000;
@@ -51,8 +51,8 @@ public class EvaluateLast {
         System.out.println("max = " + args[2]);
 //        String[] algorithms = {"FP", "FP_LLM", "LL", "LL_LLM"};
 //        String[] algorithms = {"IBR", "IBR_LLM", "FP", "FP_LLM"};
-//        String[] algorithms = {"IBR", "FP", "LL", "LL_LLM"};
-        String[] algorithms = {"IBR", "FP", "DO", "LL"};
+        String[] algorithms = {"IBR", "FP", "LL", "LL_LLM"};
+//        String[] algorithms = {"IBR", "FP", "DO", "LL"};
         HashMap<String, HashMap<String, List<List<String>>>> mapHashMap = new HashMap<>();
 
         for (String map : maps) {

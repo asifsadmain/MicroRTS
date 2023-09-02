@@ -42,7 +42,7 @@ public class Algoritmo1 {
 			strategyList.add(individuo.translateIndentation(1));
 		}
 
-		while (true) {
+		while (ava.getBudget() <= 150000) {
 			long paraou = System.currentTimeMillis() - this.tempo_ini;
 			boolean foundInLLM = false;
 
@@ -172,7 +172,7 @@ public class Algoritmo1 {
 	public void run(GameState gs,int max) throws Exception {
 		
 		
-		while(ava.getBudget() <= 250000) {
+		while(ava.getBudget() <= 150000) {
 			long paraou = System.currentTimeMillis()-this.tempo_ini;
 			
 			Node_LS j = ava.getIndividuo(); 

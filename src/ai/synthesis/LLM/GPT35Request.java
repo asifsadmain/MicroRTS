@@ -22,8 +22,15 @@ public class GPT35Request {
             "{\n" +
                     "  \"model\": \"gpt-3.5-turbo\",\n" +
                     "  \"messages\": [{ \"role\": \"user\", \"content\": \"%s\" }],\n" +
-                    "  \"temperature\": 0.7\n" +
+                    "  \"temperature\": 0.3\n" +
                     "}";
+
+    private static final String mapDetails16x16 = "I have a 16x16 map of microRTS. Consider this map as a 2 dimensional array with the following units in it:\\n" +
+            "- There are total 4 neutral resource centers R having 25 resources in each located at the indices (0,0), (0,1), (15,14),(15,15).\\n" +
+            "- The base B1 of player 1 is located at index (2,2)\\n" +
+            "- The base B2 of player 2 is located at index (13,13)\\n" +
+            "- The only worker W1 of player 1 is located at index (1,1)\\n" +
+            "- The only worker of player 2 is located at index (14,14)\\n\\n";
 
     private static final String mapDetails24x24 = "I have a 24x24 map of microRTS. Consider this map as a 2 dimensional array with the following units in it:\\n" +
             "- There are total 4 neutral resource centers R having 25 resources in each located at the indices (0,0), (0,1), (23,22),(23,23).\\n" +
@@ -54,6 +61,14 @@ public class GPT35Request {
             "- There are no workers for both player 1 and 2 in the initial map setup\\n" +
             "It is to be noted that, there are obstacles in between each of the 4 resource centers. The units need to move to somewhere in the middle of the map to navigate from one resource center to another.";
 
+    private static final String mapDetailsDG24x24 = "I have a 24x24 map of microRTS. Consider this map as a 2 dimensional array with the following units in it:\\n" +
+            "- There is wall in the middle of the map consisting of two columns that has a small passage of 4 cells\\n" +
+            "- The small passage consists of 4 resource centers each having only 1 resource\\n" +
+            "- There are two bases for each player located at two sides of the wall\\n" +
+            "- All bases have no resource in it initially\\n" +
+            "- The bases of player 1 are located at indices (3,2) and (20,2)\\n" +
+            "- The bases of player 2 are located at indices (20,21) and (3,21)\\n" +
+            "- There are 2 workers beside each base. So total 4 workers of each of the players\\n\\n";
     private static final String DSL = "Now I have a context free grammar (CFG) of microRTS playing strategy inside the <CFG></CFG> tag written bellow:\\n\\n" +
             "<CFG>\\n" +
             "S -> SS | for(Unit u) S | if(B) then S | if(B) then S else S | C | λ\\n" +
@@ -93,11 +108,12 @@ public class GPT35Request {
             "'T' represents the types a unit can assume. 'N' is a set of integers. 'D' represents the directions available used in action functions.\\n" +
             "O_p is a set of criteria to select an opponent unit based on their current state. T_p represents the set of target players.\\n\\n";
 
-    private static final String strategyWritingGuidelines = "The following 4 are some guidelines of writing the playing strategy:\\n" +
+    private static final String strategyWritingGuidelines = "The following 5 are some guidelines of writing the playing strategy:\\n" +
             "1. There is NO NEED TO write classes, initiate objects such as Unit, Worker, etc. There is also NO NEED TO write comments.\\n" +
             "2. Use curly braces like C/C++/Java while writing any 'for' or 'if' or 'if-else' block. Start the curly braces in the same line of the block.\\n" +
-            "3. Do not write 'else if(B) {' block. Write 'else { if(B) {...}}' instead." +
-            "4. A strategy must be written inside one or multiple 'for' block.\\n\\n";
+            "3. Do not write 'else if(B) {' block. Write 'else { if(B) {...}}' instead.\\n" +
+            "4. A strategy must be written inside one or multiple 'for' block.\\n" +
+            "5. You must not use any symbols (for example: &&, ||, etc.) outside this given CFG. In case of codes like 'if (B1 && B2)', write 'if (B1) { if (B2) {...}}' instead.\\n\\n";
 //    "5. A strategy might be the combination of multiple strategies where each strategy is written inside a 'for' block.\\n\\n";
 
     private static final String strategyExamples = "Some example strategies that satisfy this CFG are:\\n" +
@@ -264,7 +280,12 @@ public class GPT35Request {
             mapDetails = mapDetails64x64;
         } else if (mapNumber.equals("4")) {
             mapDetails = mapDetails9x8;
+        } else if (mapNumber.equals("5")) {
+            mapDetails = mapDetails16x16;
+        } else if (mapNumber.equals("6")) {
+            mapDetails = mapDetailsDG24x24;
         }
+
         String InitialStrategyRequest = mapDetails + DSL + DSLExplanation + strategyWritingGuidelines + "Your tasks are the following 7:\\n" + tasks;
 //    String postBody = REQUEST_BODY_GPT_TURBO.formatted(InitialStrategyRequest);
         String postBody = String.format(REQUEST_BODY_GPT_TURBO, InitialStrategyRequest);
@@ -297,6 +318,10 @@ public class GPT35Request {
             mapDetails = mapDetails64x64;
         } else if (mapNumber.equals("4")) {
             mapDetails = mapDetails9x8;
+        } else if (mapNumber.equals("5")) {
+            mapDetails = mapDetails16x16;
+        } else if (mapNumber.equals("6")) {
+            mapDetails = mapDetailsDG24x24;
         }
 
         String bestResponse = "";
@@ -367,7 +392,7 @@ public class GPT35Request {
 
         String bestResponseStrategyRequest = mapDetails + DSL + DSLExplanation + lastThreeBestRespones.toString() + finalInstructions;
         if (!actionSeq.isEmpty()) {
-            bestResponseStrategyRequest = mapDetails + DSL + DSLExplanation + prevStrategy + prevCounterStrategy + encodings + sequenceOfActions + finalInstructions;
+            bestResponseStrategyRequest = mapDetails + DSL + DSLExplanation + lastThreeBestRespones.toString() + prevStrategy + prevCounterStrategy + encodings + sequenceOfActions + finalInstructions;
         }
 
         String postBody = String.format(REQUEST_BODY_GPT_TURBO, bestResponseStrategyRequest);
