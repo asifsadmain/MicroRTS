@@ -69,6 +69,13 @@ public class GPT35Request {
             "- The bases of player 1 are located at indices (3,2) and (20,2)\\n" +
             "- The bases of player 2 are located at indices (20,21) and (3,21)\\n" +
             "- There are 2 workers beside each base. So total 4 workers of each of the players\\n\\n";
+
+    private static final String mapDavid = "I have an 18x8 map of MicroRTS. There is no worker, resource or barrack on the map. " +
+            "There are 4 heavy and 4 ranged units for each player. These are all they got for the match. " +
+            "The base of player 1 is located at the middle of the 1st (leftmost) column and " +
+            "the base of player 2 is located at the 17th (rightmost) column. " +
+            "All the heavy units of player 1 are located in the 2nd column and the ranged units of player 1 are in the 3rd column. " +
+            "On the other hand, all the heavy units of player 2 are located in the 15th and all the ranged units of player 2 are located in the 14th column of the map.\\n\\n";
     private static final String DSL = "Now I have a context free grammar (CFG) of microRTS playing strategy inside the <CFG></CFG> tag written bellow:\\n\\n" +
             "<CFG>\\n" +
             "S -> SS | for(Unit u) S | if(B) then S | if(B) then S else S | C | λ\\n" +
@@ -255,7 +262,7 @@ public class GPT35Request {
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         String responseBody = response.body();
-    System.out.println(responseBody);
+//    System.out.println(responseBody);
 
         JSONObject jo = new JSONObject(responseBody);
 
@@ -270,7 +277,7 @@ public class GPT35Request {
         return content;
     }
 
-    public static String getStartingStrategy(String mapNumber) throws Exception {
+    public static String getStartingStrategy(String mapNumber, Boolean explainDSL) throws Exception {
         String mapDetails = "";
         if (mapNumber.equals("1")) {
             mapDetails = mapDetails24x24;
@@ -284,9 +291,16 @@ public class GPT35Request {
             mapDetails = mapDetails16x16;
         } else if (mapNumber.equals("6")) {
             mapDetails = mapDetailsDG24x24;
+        } else if (mapNumber.equals("7")) {
+            mapDetails = mapDavid;
         }
 
-        String InitialStrategyRequest = mapDetails + DSL + DSLExplanation + strategyWritingGuidelines + "Your tasks are the following 7:\\n" + tasks;
+        String InitialStrategyRequest = "";
+        if (explainDSL) {
+            InitialStrategyRequest = mapDetails + DSL + DSLExplanation + strategyWritingGuidelines + "Your tasks are the following 7:\\n" + tasks;
+        } else {
+            InitialStrategyRequest = mapDetails + DSL + strategyWritingGuidelines + "Your tasks are the following 7:\\n" + tasks;
+        }
 //    String postBody = REQUEST_BODY_GPT_TURBO.formatted(InitialStrategyRequest);
         String postBody = String.format(REQUEST_BODY_GPT_TURBO, InitialStrategyRequest);
 
@@ -322,6 +336,8 @@ public class GPT35Request {
             mapDetails = mapDetails16x16;
         } else if (mapNumber.equals("6")) {
             mapDetails = mapDetailsDG24x24;
+        } else if (mapNumber.equals("7")) {
+            mapDetails = mapDavid;
         }
 
         String bestResponse = "";
@@ -390,9 +406,9 @@ public class GPT35Request {
                 "3. Don't forget to build barracks if it does not exits in the map and you want to write code to train heavy/ranged/light units.\\n" +
                 "4. You need to only write the counter strategy inside <counterStrategy></counterStrategy> tag.";
 
-        String bestResponseStrategyRequest = mapDetails + DSL + DSLExplanation + lastThreeBestRespones.toString() + finalInstructions;
+        String bestResponseStrategyRequest =  DSL + DSLExplanation + finalInstructions;
         if (!actionSeq.isEmpty()) {
-            bestResponseStrategyRequest = mapDetails + DSL + DSLExplanation + lastThreeBestRespones.toString() + prevStrategy + prevCounterStrategy + encodings + sequenceOfActions + finalInstructions;
+            bestResponseStrategyRequest = DSL + DSLExplanation + prevStrategy + prevCounterStrategy + encodings + sequenceOfActions + finalInstructions;
         }
 
         String postBody = String.format(REQUEST_BODY_GPT_TURBO, bestResponseStrategyRequest);

@@ -51,6 +51,26 @@ public class DO implements Avaliador {
         this.budget = 0;
     }
 
+    public DO(List<Node_LS> js) {
+        // TODO Auto-generated constructor stub
+        System.out.println("Double Oracle");
+        UnitTypeTable utt = new UnitTypeTable();
+        tempo_ini = System.currentTimeMillis();
+        this.playout = new SimplePlayout();
+        this.f = new FactoryLS();
+        this.individuos = js;
+//        this.individuos.add(new S_LS(new Empty_LS()));
+        System.out.println("Camp\t" + 0.0 + "\t" + 0 + "\t"
+                + Control.save((Node) this.individuos.get(0)));
+
+        this.adv_atual = new ArrayList();
+        this.adv_atual.add(new Interpreter(utt, this.individuos.get(0)));
+        this.score = new ArrayList();
+        score.add(new ArrayList());
+        score.get(0).add(0.5);
+        this.budget = 0;
+    }
+
     @Override
     public int getBudget() {
         return this.budget;

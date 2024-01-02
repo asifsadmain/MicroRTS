@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class EvaluateLast {
     public static void main(String[] args) throws Exception {
-        int LINES = 100;
+        int LINES = 30;
         int RUNS = 12;
         String[] maps = new String[1];
         String path_map = "";
@@ -43,6 +43,12 @@ public class EvaluateLast {
         } else if (args[0].equals("5")) {
             maps[0] = "32x32";
             path_map = "maps/32x32/basesWorkers32x32A.xml";
+        } else if (args[0].equals("6")) {
+            maps[0] = "DG";
+            path_map = "maps/DoubleGame24x24.xml";
+        } else if (args[0].equals("7")) {
+            maps[0] = "David";
+            path_map = "maps/mapDavid.xml";
         }
 
         int minLimit = Integer.parseInt(args[1]);

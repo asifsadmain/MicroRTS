@@ -32,6 +32,7 @@ public class MainTest {
 	    if(s.equals("3")) {change_NS=24;time=5000; max =15000;return "maps/BroodWar/(4)BloodBath.scmB.xml";}
 		if(s.equals("4")) {return "maps/NoWhereToRun9x8.xml";}
 		if(s.equals("6")) {return "maps/DoubleGame24x24.xml";}
+		if(s.equals("7")) {return  "maps/mapDavid.xml";}
 	   return null;
 	}
 	
@@ -39,8 +40,13 @@ public class MainTest {
 		// TODO Auto-generated method stub
 		UnitTypeTable utt = new UnitTypeTable(2);
 		String path_map = getMap(args[0]);
+		Boolean explainDSL = false;
 		PhysicalGameState pgs = PhysicalGameState.load(path_map, utt);
 		GameState gs2 = new GameState(pgs, utt);
+		
+		if (args[2].equals("1")) {
+			explainDSL = true;
+		}
 
 		System.out.println("Map: " + path_map);
 		
@@ -75,7 +81,7 @@ public class MainTest {
 			boolean isSuccess = false;
 			while (!isSuccess) {
 				try {
-					String strategy = GPT35Request.getStartingStrategy(args[0]);
+					String strategy = GPT35Request.getStartingStrategy(args[0], explainDSL);
 					Node_LS j1 = ASTCreator.createAST(strategy);
 					js.add(j1);
 					isSuccess = true;
@@ -96,7 +102,7 @@ public class MainTest {
 			boolean isSuccess = false;
 			while (!isSuccess) {
 				try {
-					String strategy = GPT35Request.getStartingStrategy(args[0]);
+					String strategy = GPT35Request.getStartingStrategy(args[0], explainDSL);
 					Node_LS j1 = ASTCreator.createAST(strategy);
 					js.add(j1);
 					isSuccess = true;
@@ -117,7 +123,7 @@ public class MainTest {
 			boolean isSuccess = false;
 			while (!isSuccess) {
 				try {
-					String strategy = GPT35Request.getStartingStrategy(args[0]);
+					String strategy = GPT35Request.getStartingStrategy(args[0], explainDSL);
 					ai.synthesis.ComplexDSL.LS_CFG.Node_LS j1 = ASTCreatorForComplexDSL.createAST(strategy);
 					js.add(j1);
 					isSuccess = true;
@@ -132,9 +138,32 @@ public class MainTest {
 		}
 
 		if(args[1].equals("6")) {
-			System.out.println("Algorithm: DO");
-			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.HC(2000), new DO());
+			System.out.println("Algorithm: DO with LLM");
+
+			List<ai.synthesis.ComplexDSL.LS_CFG.Node_LS> js = new ArrayList<ai.synthesis.ComplexDSL.LS_CFG.Node_LS>();
+
+			boolean isSuccess = false;
+			while (!isSuccess) {
+				try {
+					String strategy = GPT35Request.getStartingStrategy(args[0], explainDSL);
+					ai.synthesis.ComplexDSL.LS_CFG.Node_LS j1 = ASTCreatorForComplexDSL.createAST(strategy);
+					js.add(j1);
+					isSuccess = true;
+				} catch (Exception e) {
+//        System.out.println(e.toString());
+				}
+			}
+
+			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.HC(2000), new DO(js));
 //			SelfPlay se2 = new SelfPlay(new HC(2000), new CS_Default());
+//			se2.run(gs2, max);
+			se2.runWithLLM(gs2, max, args[0], true);
+		}
+
+		if(args[1].equals("7")) {
+			System.out.println("Algorithm: DO");
+
+			Algoritmo1 se2 = new Algoritmo1(new ai.synthesis.ComplexDSL.IAs2.HC(2000), new DO());
 			se2.run(gs2, max);
 		}
 	}
