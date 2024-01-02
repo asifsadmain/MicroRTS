@@ -277,7 +277,7 @@ public class GPT35Request {
         return content;
     }
 
-    public static String getStartingStrategy(String mapNumber, Boolean explainDSL) throws Exception {
+    public static String getStartingStrategy(String mapNumber, boolean explainDSL) throws Exception {
         String mapDetails = "";
         if (mapNumber.equals("1")) {
             mapDetails = mapDetails24x24;
@@ -322,7 +322,7 @@ public class GPT35Request {
         return strategy;
     }
 
-    public static String getBestResponseStrategy(String strategy, List<String> lastThreeStrategies, String mapNumber, String actionSeq, String failedCounterStrategy) throws IOException, InterruptedException {
+    public static String getBestResponseStrategy(String strategy, List<String> lastThreeStrategies, String mapNumber, String actionSeq, String failedCounterStrategy, boolean explainDSL) throws IOException, InterruptedException {
         String mapDetails = "";
         if (mapNumber.equals("1")) {
             mapDetails = mapDetails24x24;
@@ -406,9 +406,18 @@ public class GPT35Request {
                 "3. Don't forget to build barracks if it does not exits in the map and you want to write code to train heavy/ranged/light units.\\n" +
                 "4. You need to only write the counter strategy inside <counterStrategy></counterStrategy> tag.";
 
-        String bestResponseStrategyRequest =  DSL + DSLExplanation + finalInstructions;
+        String bestResponseStrategyRequest = "";
+        if (explainDSL) {
+            bestResponseStrategyRequest =  DSL + DSLExplanation + finalInstructions;
+        } else {
+            bestResponseStrategyRequest =  DSL + finalInstructions;
+        }
         if (!actionSeq.isEmpty()) {
-            bestResponseStrategyRequest = DSL + DSLExplanation + prevStrategy + prevCounterStrategy + encodings + sequenceOfActions + finalInstructions;
+            if (explainDSL) {
+                bestResponseStrategyRequest = DSL + DSLExplanation + prevStrategy + prevCounterStrategy + encodings + sequenceOfActions + finalInstructions;
+            } else {
+                bestResponseStrategyRequest = DSL + prevStrategy + prevCounterStrategy + encodings + sequenceOfActions + finalInstructions;
+            }
         }
 
         String postBody = String.format(REQUEST_BODY_GPT_TURBO, bestResponseStrategyRequest);
@@ -444,6 +453,6 @@ public class GPT35Request {
                 "  }\n" +
                 "  u.idle()\n" +
                 "}";
-        System.out.println(getBestResponseStrategy(strategy, new ArrayList<>(), "1", "", ""));
+        System.out.println(getBestResponseStrategy(strategy, new ArrayList<>(), "1", "", "", true));
     }
 }

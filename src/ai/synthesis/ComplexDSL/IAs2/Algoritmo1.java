@@ -34,7 +34,7 @@ public class Algoritmo1 {
 	}
 
 
-	public void runWithLLM(GameState gs, int max, String mapNumber, boolean feedbackFlag) throws Exception {
+	public void runWithLLM(GameState gs, int max, String mapNumber, boolean feedbackFlag, boolean explainDSL) throws Exception {
 		List<String> strategyList = new ArrayList<String>();
 		List<Node_LS> individuos = ava.getIndividuos();
 
@@ -78,9 +78,9 @@ public class Algoritmo1 {
 				while (!isSuccess) {
 					try {
 						if (feedbackFlag) {
-							counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastThreeStrategies, mapNumber, actionSeq, failedCounterStrategy);
+							counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastThreeStrategies, mapNumber, actionSeq, failedCounterStrategy, explainDSL);
 						} else {
-							counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastThreeStrategies, mapNumber, "", failedCounterStrategy);
+							counterStrategy = GPT35Request.getBestResponseStrategy(j.translateIndentation(1), lastThreeStrategies, mapNumber, "", failedCounterStrategy, explainDSL);
 						}
 						c0 = ASTCreatorForComplexDSL.createAST(counterStrategy);
 //            System.out.println();
