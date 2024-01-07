@@ -32,7 +32,7 @@ public class MainTest {
 	    if(s.equals("3")) {change_NS=24;time=5000; max =15000;return "maps/BroodWar/(4)BloodBath.scmB.xml";}
 		if(s.equals("4")) {return "maps/NoWhereToRun9x8.xml";}
 		if(s.equals("6")) {return "maps/DoubleGame24x24.xml";}
-		if(s.equals("7")) {return  "maps/mapDavid.xml";}
+		if(s.equals("7")) {return  "maps/BWDistantResources32x32.xml";}
 	   return null;
 	}
 	

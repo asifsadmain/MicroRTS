@@ -190,33 +190,33 @@ public class ASTCreatorForComplexDSL {
         List<String> parameters = extractContentInBrackets(condition);
         B_LS b = new B_LS();
 
-        if (condition.startsWith("hasNumberOfUnits")) {
+        if (condition.startsWith("hasNumberOfUnits") || condition.startsWith("b1")) {
             b = new B_LS(new HasNumberOfUnits(new Type(parameters.get(0)), new N(parameters.get(1))));
-        } else if (condition.startsWith("opponentHasNumberOfUnits")) {
+        } else if (condition.startsWith("opponentHasNumberOfUnits") || condition.startsWith("b2")) {
             b = new B_LS(new OpponentHasNumberOfUnits(new Type(parameters.get(0)), new N(parameters.get(1))));
-        } else if (condition.startsWith("hasLessNumberOfUnits")) {
+        } else if (condition.startsWith("hasLessNumberOfUnits") || condition.startsWith("b3")) {
             b = new B_LS(new HasLessNumberOfUnits(new Type(parameters.get(0)), new N(parameters.get(1))));
-        } else if (condition.startsWith("haveQtdUnitsAttacking")) {
+        } else if (condition.startsWith("haveQtdUnitsAttacking") || condition.startsWith("b4")) {
             b = new B_LS(new HaveQtdUnitsAttacking(new N(parameters.get(0))));
-        } else if (condition.startsWith("hasUnitWithinDistanceFromOpponent")) {
+        } else if (condition.startsWith("hasUnitWithinDistanceFromOpponent") || condition.startsWith("b5")) {
             b = new B_LS(new HasUnitWithinDistanceFromOpponent(new N(parameters.get(0))));
-        } else if (condition.startsWith("hasNumberOfWorkersHarvesting")) {
+        } else if (condition.startsWith("hasNumberOfWorkersHarvesting") || condition.startsWith("b6")) {
             b = new B_LS(new HasNumberOfWorkersHarvesting(new N(parameters.get(0))));
-        } else if (condition.startsWith("isBuilder")) {
+        } else if (condition.startsWith("isBuilder") || condition.startsWith("b8")) {
             b = new B_LS(new Is_Builder());
-        } else if (condition.startsWith("is")) {
+        } else if (condition.startsWith("is") || condition.startsWith("b7")) {
             b = new B_LS(new is_Type(new Type(parameters.get(0))));
-        } else if (condition.startsWith("canAttack")) {
+        } else if (condition.startsWith("canAttack") || condition.startsWith("b9")) {
             b = new B_LS(new CanAttack());
-        } else if (condition.startsWith("hasUnitThatKillsInOneAttack")) {
+        } else if (condition.startsWith("hasUnitThatKillsInOneAttack") || condition.startsWith("b10")) {
             b = new B_LS(new HasUnitThatKillsInOneAttack());
-        } else if (condition.startsWith("opponentHasUnitThatKillsUnitInOneAttack")) {
+        } else if (condition.startsWith("opponentHasUnitThatKillsUnitInOneAttack") || condition.startsWith("b11")) {
             b = new B_LS(new OpponentHasUnitThatKillsUnitInOneAttack());
-        } else if (condition.startsWith("hasUnitInOpponentRange")) {
+        } else if (condition.startsWith("hasUnitInOpponentRange") || condition.startsWith("b12")) {
             b = new B_LS(new HasUnitInOpponentRange());
-        } else if (condition.startsWith("opponentHasUnitInPlayerRange")) {
+        } else if (condition.startsWith("opponentHasUnitInPlayerRange") || condition.startsWith("b13")) {
             b = new B_LS(new OpponentHasUnitInPlayerRange());
-        } else if (condition.startsWith("canHarvest")) {
+        } else if (condition.startsWith("canHarvest") || condition.startsWith("b14")) {
             b = new B_LS(new CanHarvest());
         } else {
             return null;
@@ -229,19 +229,19 @@ public class ASTCreatorForComplexDSL {
         List<String> parameters = extractContentInBrackets(command);
         S_LS s = new S_LS();
 
-        if (command.startsWith("u.build")) {
+        if (command.startsWith("u.build") || command.startsWith("u.c1")) {
             s = new S_LS(new C_LS(new Build_LS(new Type(parameters.get(0)), new Direction(parameters.get(1)), new N(parameters.get(2)))));
-        } else if (command.startsWith("u.train")) {
+        } else if (command.startsWith("u.train") || command.startsWith("u.c2")) {
             s = new S_LS(new C_LS(new Train_LS(new Type(parameters.get(0)), new Direction(parameters.get(1)), new N(parameters.get(2)))));
-        } else if (command.startsWith("u.moveToUnit")) {
+        } else if (command.startsWith("u.moveToUnit") || command.startsWith("u.c3")) {
             s = new S_LS(new C_LS(new moveToUnit_LS(new TargetPlayer(parameters.get(0)), new OpponentPolicy(parameters.get(1)))));
-        } else if (command.startsWith("u.attack")) {
+        } else if (command.startsWith("u.attack") || command.startsWith("u.c4")) {
             s = new S_LS(new C_LS(new Attack_LS(new OpponentPolicy(parameters.get(0)))));
-        } else if (command.startsWith("u.harvest")) {
+        } else if (command.startsWith("u.harvest") || command.startsWith("u.c5")) {
             s = new S_LS(new C_LS(new Harvest_LS(new N(parameters.get(0)))));
-        } else if (command.startsWith("u.attackIfInRange")  || command.startsWith("u.idle")) {
+        } else if (command.startsWith("u.attackIfInRange")  || command.startsWith("u.idle") || command.startsWith("u.c6")) {
             s = new S_LS(new C_LS(new Idle_LS()));
-        } else if (command.startsWith("u.moveAway")) {
+        } else if (command.startsWith("u.moveAway") || command.startsWith("u.c7")) {
             s = new S_LS(new C_LS(new MoveAway_LS()));
         } else if (command.startsWith("empty")) {
             s = new S_LS(new Empty_LS());
