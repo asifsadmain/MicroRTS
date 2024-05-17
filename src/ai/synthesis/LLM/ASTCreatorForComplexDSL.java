@@ -46,30 +46,27 @@ class Segment2 {
 
 public class ASTCreatorForComplexDSL {
   public static void main(String[] args) {
-    String expr = "for(Unit u){\n" +
-      "  u.attack(Closest)\n" +
-      "  for(Unit u){\n" +
-      "    for(Unit u){\n" +
-      "      u.idle()\n" +
-      "      u.harvest(6)\n" +
-      "    }\n" +
-      "   u.train(Worker,Left,25)\n" +
-      "   u.moveToUnit(Ally,Closest)\n" +
-      "  }\n" +
-      "  for(Unit u){\n" +
-      "   u.moveToUnit(Enemy,Weakest)\n" +
-      "   u.train(Worker,Left,25)\n" +
-      "  }\n" +
-      "}";
+    String expr = "for(Unit u) {\n" +
+            "    if(u.is_Type(Base)) {\n" +
+            "        if(u.hasNumberOfUnits(Worker, 0)) {\n" +
+            "            u.train(Worker, Down, 1)\n" +
+            "        } else {\n" +
+            "                u.train(Worker, Down, 3)\n" +
+            "        }\n" +
+            "    }\n" +
+            "}";
 
     String expr2 = "for(Unit u) {\n" +
-      "  if(u.canHarvest()) {\n" +
-      "    u.harvest(2)\n" +
-      "  }\n" +
-      "  else {\n" +
-      "    u.attack(Closest)\n" +
-      "  }\n" +
-      "}";
+            "    if(u.is_Type(Base)) {\n" +
+            "        if(u.hasNumberOfUnits(Worker, 0)) {\n" +
+            "            u.train(Worker, Down, 1)\n" +
+            "        } else {\n" +
+            "            if(u.hasLessNumberOfUnits(Worker, 5)) {\n" +
+            "                u.train(Worker, Down, 1)\n" +
+            "            }\n" +
+            "        }\n" +
+            "    }\n" +
+            "}";
 
     String expr3 = "for(Unit u){\n" +
       "  if(u.CanAttack) then {\n" +
@@ -158,7 +155,7 @@ public class ASTCreatorForComplexDSL {
 //    S_LS AST2 = createAST(expr2);
 //    System.out.println(AST2.translateIndentation(2));
     System.out.println("####################################");
-    S_LS AST3 = createAST(expr);
+    S_LS AST3 = createAST(expr2);
     System.out.println(AST3.translateIndentation(1));
     System.out.println("####################################");
 //    S_LS AST4 = createAST(expr4);
@@ -411,6 +408,7 @@ public class ASTCreatorForComplexDSL {
 
                     stack.push(newSegment);
                 } else if (getBlockName(expr, i).equals("else")) {
+//                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
                     stack.push(new Segment2("else"));
                     commandStart = i + 1;
                 } else if (getBlockName(expr, i).equals("for")) {
@@ -452,7 +450,10 @@ public class ASTCreatorForComplexDSL {
                     }
 
                     String elseExpr = expr.substring(startIdx, endIdx);
+//                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + elseExpr);
                     elseS = createAST(elseExpr);
+                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                    System.out.println(elseS.translateIndentation(1));
                 }
 
                 if (!stack.isEmpty()) {
@@ -497,16 +498,24 @@ public class ASTCreatorForComplexDSL {
                         finishedSegment.s = finalS;
                     } else if (finishedSegment.name.equals("if")) {
                         if (elseS == null) {
+                            System.out.println("44444444444444444444444444444444444444444");
                             finalS = new S_LS(new If_B_then_S_LS(finishedSegment.b, prevS));
                         } else {
+                            System.out.println("111111111111111111111111111111111111111111");
                             finalS = new S_LS(new If_B_then_S_else_S_LS(finishedSegment.b, prevS, elseS));
                         }
                         finishedSegment.s = finalS;
+                        for (Object obj : finishedSegment.segmentContent) {
+                    System.out.println(obj);
+                  }
                     } else if (finishedSegment.name.equals("else") && elseS == null) {
+                        System.out.println("22222222222222222222222222222222222222");
                         finalS = prevS;
                         finishedSegment.s = finalS;
                     } else {
+                        System.out.println("33333333333333333333333333333333333333");
                         finishedSegment.s = new S_LS(new Empty_LS());
+//                        finishedSegment.s = finalS;
 //            System.out.println(finishedSegment.s.getChild().getName());
                     }
 

@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 public class GPT35Request {
     private static final String URL_GPT_TURBO = "https://api.openai.com/v1/chat/completions";
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "sk-proj-o330jKqYQ6Gz9ohirtruT3BlbkFJQNE1fyEYjEBGs8095atb";
     private static final String REQUEST_BODY_GPT_TURBO =
             "{\n" +
                     "  \"model\": \"gpt-3.5-turbo\",\n" +
@@ -47,12 +47,15 @@ public class GPT35Request {
             "- The only worker W1 of player 1 is located at index (3,3)\\n" +
             "- The only worker of player 2 is located at index (28,28)\\n\\n";
 
-    private static final String mapDetails64x64 = "I have a 64x64 map of microRTS. Consider this map as a 2 dimensional array with the following units in it:\\n" +
-            "- There are total 4 neutral resource centers R having 40 resources in each located at the indices (12, 61), (2, 13), (61, 53), (61, 11)\\n" +
-            "- The base B1 of player 1 is located at index (53, 55)\\n" +
-            "- The base B2 of player 2 is located at index (2, 6)\\n" +
-            "- There are no workers for both player 1 and 2 in the initial map setup\\n" +
-            "It is to be noted that, there are obstacles in between each of the 4 resource centers. The units need to move to somewhere in the middle of the map to navigate from one resource center to another.";
+    private static final String mapDetails64x64 = "Consider a 64x64 gridded map of microRTS, a real-time strategy game. Consider this map as a 2 dimensional array with the following structure:\\n" +
+            "- There are total 4 neutral resource cells situated close to the top-left, top-right, bottom-left and bottom-right sides of the map respectively. " +
+            "Each resource cell contains 40 units of resources.\\n" +
+            "- There are obstacles in between each of the 4 resource centers.\\n" +
+            "- The base B1 of player 1 is located at index (53, 55), which is located on the bottom-right side of the map.\\n" +
+            "- The base B2 of player 2 is located at index (2, 6), which is located on the top-left side of the map.\\n" +
+            "- Each player controls one Base each, which initially has 5 units of resources.\\n" +
+            "- There is no worker for both player 1 and 2 in the initial map setup.\\n" +
+            "- The only unit a player controls at the beginning of the game is the Base.\\n\\n";
 
     private static final String mapDetails9x8 = "Consider a 9x8 gridded map of microRTS, a real-time strategy game. Consider this map as a 2 dimensional array with the following structure:\\n" +
             "- There are a total of 8 neutral resource cells situated along the central column of the map, dividing the map into two parts. " +
@@ -78,7 +81,7 @@ public class GPT35Request {
             "- The base B2 of player 2 is located at index (25,17).\\n" +
             "- Both bases contain 20 initial resources.\\n" +
             "- There is one worker for each player beside their bases.\\n\\n";
-    private static final String DSL2 = "Now I have a context free grammar (CFG) of microRTS playing strategy inside the <CFG></CFG> tag written bellow:\\n" +
+    private static final String DSL = "Now I have a context free grammar (CFG) of microRTS playing strategy inside the <CFG></CFG> tag written bellow:\\n" +
             "<CFG>\\n" +
             "S -> SS | for(Unit u) S | if(B) then S | if(B) then S else S | C | λ\\n" +
             "B -> u.hasNumberOfUnits(T, N) | u.opponentHasNumberOfUnits(T, N) | u.hasLessNumberOfUnits(T, N) | u.haveQtdUnitsAttacking(N) | u.hasUnitWithinDistanceFromOpponent(N) | u.hasNumberOfWorkersHarvesting(N) | u.is_Type(T) | u.isBuilder() | u.canAttack() | u.hasUnitThatKillsInOneAttack() | u.opponentHasUnitThatKillsUnitInOneAttack() | u.hasUnitInOpponentRange() | u.opponentHasUnitInPlayerRange() | u.canHarvest()\\n" +
@@ -90,7 +93,7 @@ public class GPT35Request {
             "T_p -> Ally | Enemy\\n" +
             "</CFG>\\n";
 
-    private static final String DSL = "Now I have a context free grammar (CFG) of microRTS playing strategy inside the <CFG></CFG> tag written bellow:\\n\\n" +
+    private static final String DSL2 = "Now I have a context free grammar (CFG) of microRTS playing strategy inside the <CFG></CFG> tag written bellow:\\n\\n" +
             "<CFG>\\n" +
             "S -> SS | for(Unit u) S | if(B) then S | if(B) then S else S | C | λ\\n" +
             "B -> u.b1(T, N) | u.b2(T, N) | u.b3(T, N) | u.b4(N) | u.b5(N) | u.b6(N) | u.b7(T) | u.b8() | u.b9() | u.b10() | u.b11() | u.b12() | u.b13() | u.b14()\\n" +
@@ -102,7 +105,7 @@ public class GPT35Request {
             "T_p -> tp1 | tp2\\n" +
             "</CFG>\\n\\n";
 
-    private static final String DSLExplanation2 = "This language allows nested loops and conditionals. It contains several Boolean functions (B) and command-oriented functions (C) that provide either information about the current state of the game or commands for the ally units.\\n" +
+    private static final String DSLExplanation = "This language allows nested loops and conditionals. It contains several Boolean functions (B) and command-oriented functions (C) that provide either information about the current state of the game or commands for the ally units.\\n" +
             "The Boolean functions ('B' in the CFG) are described below:\\n" +
             "1. u.hasNumberOfUnits(T, N): Checks if the ally player has N units of type T.\\n" +
             "2. u.opponentHasNumberOfUnits(T, N): Checks if the opponent player has N units of type T.\\n" +
@@ -120,16 +123,17 @@ public class GPT35Request {
             "14. u.canHarvest(): Checks if a unit can harvest resources.\\n\\n" +
             "The Command functions ('C' in the CFG) are described below:\\n" +
             "1. u.build(T, D, N): Builds N units of type T on a cell located on the D direction of the unit.\\n" +
-            "2. u.train(T, D, N): Trains N units of type T on a cell located on the D direction of the structure responsible for training them.\\n" +
+            "2. u.train(T, D, N): Trains N units of type T on a cell located on the D direction of the structure responsible for training them. For example, the instruction u.train(Heavy, Down, 1) will allow the agent to train at most 1 heavy unit in the down direction of the Barrack, while the instruction u.train(Heavy, EnemyDir, 20) will allow to train at most 20 towards the direction of the opponent. The number used in the function calls could play a big role in the strategy the program encodes.\\n" +
             "3. u.moveToUnit(T_p, O_p): Commands a unit to move towards the player T_p following a criterion O_p.\\n" +
             "4. u.attack(O_p): Sends N Worker units to harvest resources.\\n" +
-            "5. u.harvest(N): Sends N Worker units to harvest resources.\\n" +
+            "5. u.harvest(N): u.harvest(N): Sends N Worker units to harvest resources. For example, u.harvest(5) will send 5 workers to harvest resources. \\n" +
             "6. u.attackIfInRange(): Commands a unit to stay idle and attack if an opponent unit comes within its attack range.\\n" +
             "7. u.moveAway(): Commands a unit to move in the opposite direction of the player's base.\\n\\n" +
             "'T' represents the types a unit can assume. 'N' is a set of integers. 'D' represents the directions available used in action functions.\\n" +
-            "O_p is a set of criteria to select an opponent unit based on their current state. T_p represents the set of target players.\\n\\n";
+            "O_p is a set of criteria to select an opponent unit based on their current state. T_p represents the set of target players.\\n" +
+            "'N' is the number of units that can be any integers from 0 to 10, or 15, or 20, or 25, or 50, or 100.\\n\\n";
 
-    private static final String DSLExplanation = "This language allows nested loops and conditionals. It contains several Boolean functions (B) and command-oriented functions (C) that provide either information about the current state of the game or commands for the ally units.\\n" +
+    private static final String DSLExplanation2 = "This language allows nested loops and conditionals. It contains several Boolean functions (B) and command-oriented functions (C) that provide either information about the current state of the game or commands for the ally units.\\n" +
             "The Boolean functions ('B' in the CFG) are described below:\\n" +
             "1. u.b1(T, N): Checks if the ally player has N units of type T.\\n" +
             "2. u.b2(T, N): Checks if the opponent player has N units of type T.\\n" +
@@ -260,7 +264,7 @@ public class GPT35Request {
 
     private static final String tasks = "Now your tasks are the following 7:\\n" +
             "1. Understand of the Boolean (B) and command (C) functions from above and try to relate them in the context of microRTS playing strategies.\\n" +
-            "2. Write a program in the microRTS language encoding a very strong game-playing strategy for the 9x8 map described above. You must follow the guidelines of writing the playing strategy while writing your program.\\n" +
+            "2. Write a program in the microRTS language encoding a very strong game-playing strategy for the map described above. You must follow the guidelines of writing the playing strategy while writing your program.\\n" +
             "3. You must not use any symbols (for example: &&, ||, etc.) that the CFG does not accept. You have to strictly follow the CFG while writing the program.\\n" +
             "4. Look carefully, the methods of non-terminal symbols B and C have prefixes 'u.' in the examples since they are methods of the object 'Unit u'. You should follow the patterns of the examples.\\n" +
             "5. Write only the pseudocode inside '<strategy></strategy>' tag.\\n" +
@@ -371,7 +375,7 @@ public class GPT35Request {
 //    System.out.println(postBody);
 
         String content = getResponseFromApi(postBody);
-//    System.out.println(content);
+    System.out.println(content);
 
         Pattern pattern = Pattern.compile("<strategy>(.*?)</strategy>", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(content);

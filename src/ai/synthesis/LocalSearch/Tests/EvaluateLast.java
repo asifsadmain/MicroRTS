@@ -25,7 +25,7 @@ public class EvaluateLast {
         int RUNS = 30;
         String[] maps = new String[1];
         String path_map = "";
-        int max = 6000;
+        int max = 3000;
 
         if (args[0].equals("1")) {
             maps[0] = "24x24";
@@ -57,7 +57,7 @@ public class EvaluateLast {
         System.out.println("max = " + args[2]);
 //        String[] algorithms = {"FP", "FP_LLM", "LL", "LL_LLM"};
 //        String[] algorithms = {"IBR", "IBR_LLM", "FP", "FP_LLM"};
-        String[] algorithms = {"IBR", "FP", "LL", "LL_LLM"};
+        String[] algorithms = {"IBR", "FP", "LL", "LL_LLM_Enc", "LL_LLM_FB", "LL_LLM"};
 //        String[] algorithms = {"IBR", "FP", "DO", "LL"};
         HashMap<String, HashMap<String, List<List<String>>>> mapHashMap = new HashMap<>();
 
