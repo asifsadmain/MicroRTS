@@ -10,14 +10,14 @@ import java.util.List;
 
 public class S implements Node,NoTerminal {
 
-	ChildS childS;
+	Node childS;
 	public S() {
 		// TODO Auto-generated constructor stub
 		this.childS = null;
 	}
 
 	
-	public S(ChildS child) {
+	public S(Node child) {
 		super();
 		this.childS = child;
 	}
@@ -33,7 +33,7 @@ public class S implements Node,NoTerminal {
 	}
 
 
-	public void setChild(ChildS child) {
+	public void setChild(Node child) {
 		this.childS = child;
 	}
 

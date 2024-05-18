@@ -15,157 +15,12 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class Command2 {
-    String command;
-
-    Command2(String command) {
-        this.command = command.trim();
-    }
-
-    @Override
-    public String toString() {
-        return command;
-    }
-}
-
-class Segment2 {
-    String name;
-
-    S_LS s;
-    B_LS b;
-    List<Object> segmentContent = new ArrayList<>();
-
-    Segment2(String name) {
-        this.name = name;
-    }
-
-    public void add(Object obj) {
-        segmentContent.add(obj);
-    }
-}
-
 public class ASTCreatorForComplexDSL {
-  public static void main(String[] args) {
-    String expr = "for(Unit u) {\n" +
-            "    if(u.is_Type(Base)) {\n" +
-            "        if(u.hasNumberOfUnits(Worker, 0)) {\n" +
-            "            u.train(Worker, Down, 1)\n" +
-            "        } else {\n" +
-            "                u.train(Worker, Down, 3)\n" +
-            "        }\n" +
-            "    }\n" +
-            "}";
 
-    String expr2 = "for(Unit u) {\n" +
-            "    if(u.is_Type(Base)) {\n" +
-            "        if(u.hasNumberOfUnits(Worker, 0)) {\n" +
-            "            u.train(Worker, Down, 1)\n" +
-            "        } else {\n" +
-            "            if(u.hasLessNumberOfUnits(Worker, 5)) {\n" +
-            "                u.train(Worker, Down, 1)\n" +
-            "            }\n" +
-            "        }\n" +
-            "    }\n" +
-            "}";
+    public static S_LS AST = new S_LS();
+    public static Object currentNode = AST;
 
-    String expr3 = "for(Unit u){\n" +
-      "  if(u.CanAttack) then {\n" +
-      "    u.attack(Closest)\n" +
-      "  }\n" +
-      "  if(u.HasNumberOfWorkersHarvesting(0)) then {\n" +
-      "// Test comment\n" +
-      "    u.harvest(5)\n" +
-      "  }\n" +
-      "  if(u.HasNumberOfWorkersHarvesting(1)) then {\n" +
-      "    u.build(Barracks, EnemyDir, 6)\n" +
-      "  }\n" +
-      "  if(u.HasNumberOfWorkersHarvesting(2)) then {\n" +
-      "    u.train(Light, Left, 8)\n" +
-      "  }\n" +
-      "  if(u.HasNumberOfWorkersHarvesting(3)) then {\n" +
-      "    u.train(Heavy, Up, 5)\n" +
-      "  }\n" +
-      "  if(u.HasNumberOfWorkersHarvesting(4)) then {\n" +
-      "    u.train(Ranged, EnemyDir, 10)\n" +
-      "  }\n" +
-      "  if(u.HasNumberOfWorkersHarvesting(5)) then {\n" +
-      "    u.train(Ranged, EnemyDir, 50)\n" +
-      "  }\n" +
-      "  if(u.HasNumberOfWorkersHarvesting(6)) then {\n" +
-      "    u.train(Ranged, EnemyDir, 100)\n" +
-      "  }\n" +
-      "  if(u.HasNumberOfWorkersHarvesting(7)) then {\n" +
-      "    u.train(Ranged, EnemyDir, 8)\n" +
-      "  }\n" +
-      "  if(u.HasNumberOfWorkersHarvesting(8)) then {\n" +
-      "    u.train(Ranged, EnemyDir, 25)\n" +
-      "  }\n" +
-      "}";
-
-    String expr4 = "for(Unit u){\n" +
-      "    u.harvest(1)\n" +
-      "    u.train(Worker, EnemyDir, 8)\n" +
-      "    if(u.isBuilder()) then {\n" +
-      "            u.train(Ranged, EnemyDir, 7)\n" +
-      "        } else if (u.canHarvest()) then {\n" +
-      "            u.attack(LessHealthy)\n" +
-      "        } else if (u.canAttack()) then {\n" +
-      "            u.attack(Closest)\n" +
-      "        }\n" +
-      "}\n" +
-      "\n" +
-      "for(Unit u){\n" +
-      "    u.build(Barracks, EnemyDir, 6)\n" +
-      "}\n" +
-      "\n" +
-      "for(Unit u){\n" +
-      "    u.moveToUnit(Enemy, LessHealthy)\n" +
-      "    u.moveToUnit(Enemy, Farthest)\n" +
-      "    for(Unit u){\n" +
-      "        u.harvest(50)\n" +
-      "        for(Unit u){\n" +
-      "            u.train(Light, Left, 6)\n" +
-      "        }\n" +
-      "        for(Unit u){\n" +
-      "            u.idle()\n" +
-      "        }\n" +
-      "    }\n" +
-      "}";
-
-    String expr5 = "for(Unit u){\n" +
-      "  if(u.canHarvest()) then {\n" +
-      "    u.attack(Closest)\n" +
-      "    if(u.opponentHasNumberOfUnits(Ranged, 5)) then {\n" +
-      "      u.build(Ranged, Up, 6)\n" +
-      "    }\n" +
-      "  }\n" +
-      "  for(Unit u){\n" +
-      "    for(Unit u){\n" +
-      "      u.idle()\n" +
-      "      u.harvest(6)\n" +
-      "    }\n" +
-      "   u.train(Worker,Left,25)\n" +
-      "   u.moveToUnit(Ally,Closest)\n" +
-      "  }\n" +
-      "}";
-
-//    S_LS AST1 = createAST(expr);
-//    System.out.println(AST1.translateIndentation(2));
-//    System.out.println("####################################");
-//    S_LS AST2 = createAST(expr2);
-//    System.out.println(AST2.translateIndentation(2));
-    System.out.println("####################################");
-    S_LS AST3 = createAST(expr2);
-    System.out.println(AST3.translateIndentation(1));
-    System.out.println("####################################");
-//    S_LS AST4 = createAST(expr4);
-//    System.out.println(AST4.translateIndentation(2));
-//    System.out.println("####################################");
-//    S_LS AST5 = createAST(expr5);
-//    System.out.println(AST5.translateIndentation(2));
-  }
-
-    public static List<String> extractContentInBrackets(String str, boolean shouldMap) {
+    public static List<String> extractContentInBrackets(String str) {
         // Find the starting and ending indices of the brackets
         int start = str.indexOf('(');
         int end = str.lastIndexOf(')');
@@ -180,75 +35,53 @@ public class ASTCreatorForComplexDSL {
 
         // Split the string by comma and add each part to the list
         String[] parts = insideBrackets.split(",\\s*");
-
-        HashMap<String, String> dslMap = new HashMap<String, String>();
-
-        dslMap.put("t1", "Base");
-        dslMap.put("t2", "Barracks");
-        dslMap.put("t3", "Ranged");
-        dslMap.put("t4", "Heavy");
-        dslMap.put("t5", "Light");
-        dslMap.put("t6", "Worker");
-
-        dslMap.put("d1", "EnemyDir");
-        dslMap.put("d2", "Up");
-        dslMap.put("d3", "Down");
-        dslMap.put("d4", "Right");
-        dslMap.put("d5", "Left");
-
-        dslMap.put("op1", "Strongest");
-        dslMap.put("op2", "Weakest");
-        dslMap.put("op3", "Closest");
-        dslMap.put("op4", "Farthest");
-        dslMap.put("op5", "LessHealthy");
-        dslMap.put("op6", "MostHealthy");
-
-        dslMap.put("tp1", "Ally");
-        dslMap.put("tp2", "Enemy");
-
-        if (shouldMap) {
-            for (int i = 0; i < parts.length; i++) {
-                if (dslMap.containsKey(parts[i])) {
-//                    System.out.println(parts[i] + "=>" + dslMap.get(parts[i]));
-                    parts[i] = dslMap.get(parts[i]);
-                }
-            }
-        }
-
         return Arrays.asList(parts);
     }
 
+    public static String getBooleanCondition (String expr) {
+        String regex = "\\(.*\\)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(expr);
+
+        if (matcher.find()) {
+            return matcher.group(0);
+        }
+
+        return null;
+    }
+
     public static B_LS createBooleanNode(String condition) {
-        List<String> parameters = extractContentInBrackets(condition, true);        // True if encrypted DSL
+        condition = condition.substring(1, condition.length()-1);
+        List<String> parameters = extractContentInBrackets(condition);        // True if encrypted DSL
         B_LS b = new B_LS();
 
-        if (condition.startsWith("hasNumberOfUnits") || condition.startsWith("b1")) {
+        if (condition.startsWith("u.hasNumberOfUnits") || condition.startsWith("b1")) {
             b = new B_LS(new HasNumberOfUnits(new Type(parameters.get(0)), new N(parameters.get(1))));
-        } else if (condition.startsWith("opponentHasNumberOfUnits") || condition.startsWith("b2")) {
+        } else if (condition.startsWith("u.opponentHasNumberOfUnits") || condition.startsWith("b2")) {
             b = new B_LS(new OpponentHasNumberOfUnits(new Type(parameters.get(0)), new N(parameters.get(1))));
-        } else if (condition.startsWith("hasLessNumberOfUnits") || condition.startsWith("b3")) {
+        } else if (condition.startsWith("u.hasLessNumberOfUnits") || condition.startsWith("b3")) {
             b = new B_LS(new HasLessNumberOfUnits(new Type(parameters.get(0)), new N(parameters.get(1))));
-        } else if (condition.startsWith("haveQtdUnitsAttacking") || condition.startsWith("b4")) {
+        } else if (condition.startsWith("u.haveQtdUnitsAttacking") || condition.startsWith("b4")) {
             b = new B_LS(new HaveQtdUnitsAttacking(new N(parameters.get(0))));
-        } else if (condition.startsWith("hasUnitWithinDistanceFromOpponent") || condition.startsWith("b5")) {
+        } else if (condition.startsWith("u.hasUnitWithinDistanceFromOpponent") || condition.startsWith("b5")) {
             b = new B_LS(new HasUnitWithinDistanceFromOpponent(new N(parameters.get(0))));
-        } else if (condition.startsWith("hasNumberOfWorkersHarvesting") || condition.startsWith("b6")) {
+        } else if (condition.startsWith("u.hasNumberOfWorkersHarvesting") || condition.startsWith("b6")) {
             b = new B_LS(new HasNumberOfWorkersHarvesting(new N(parameters.get(0))));
-        } else if (condition.startsWith("isBuilder") || condition.startsWith("b8")) {
+        } else if (condition.startsWith("u.isBuilder") || condition.startsWith("b8")) {
             b = new B_LS(new Is_Builder());
-        } else if (condition.startsWith("is") || condition.startsWith("b7")) {
+        } else if (condition.startsWith("u.is") || condition.startsWith("b7")) {
             b = new B_LS(new is_Type(new Type(parameters.get(0))));
-        } else if (condition.startsWith("canAttack") || condition.startsWith("b9")) {
+        } else if (condition.startsWith("u.canAttack") || condition.startsWith("b9")) {
             b = new B_LS(new CanAttack());
-        } else if (condition.startsWith("hasUnitThatKillsInOneAttack") || condition.startsWith("b10")) {
+        } else if (condition.startsWith("u.hasUnitThatKillsInOneAttack") || condition.startsWith("b10")) {
             b = new B_LS(new HasUnitThatKillsInOneAttack());
-        } else if (condition.startsWith("opponentHasUnitThatKillsUnitInOneAttack") || condition.startsWith("b11")) {
+        } else if (condition.startsWith("u.opponentHasUnitThatKillsUnitInOneAttack") || condition.startsWith("b11")) {
             b = new B_LS(new OpponentHasUnitThatKillsUnitInOneAttack());
-        } else if (condition.startsWith("hasUnitInOpponentRange") || condition.startsWith("b12")) {
+        } else if (condition.startsWith("u.hasUnitInOpponentRange") || condition.startsWith("b12")) {
             b = new B_LS(new HasUnitInOpponentRange());
-        } else if (condition.startsWith("opponentHasUnitInPlayerRange") || condition.startsWith("b13")) {
+        } else if (condition.startsWith("u.opponentHasUnitInPlayerRange") || condition.startsWith("b13")) {
             b = new B_LS(new OpponentHasUnitInPlayerRange());
-        } else if (condition.startsWith("canHarvest") || condition.startsWith("b14")) {
+        } else if (condition.startsWith("u.canHarvest") || condition.startsWith("b14")) {
             b = new B_LS(new CanHarvest());
         } else {
             return null;
@@ -258,7 +91,7 @@ public class ASTCreatorForComplexDSL {
     }
 
     public static S_LS createCommandNode(String command) {
-        List<String> parameters = extractContentInBrackets(command, true);  // true if encrypted DSL
+        List<String> parameters = extractContentInBrackets(command);  // true if encrypted DSL
         S_LS s = new S_LS();
 
         if (command.startsWith("u.build") || command.startsWith("u.c1")) {
@@ -267,12 +100,12 @@ public class ASTCreatorForComplexDSL {
             s = new S_LS(new C_LS(new Train_LS(new Type(parameters.get(0)), new Direction(parameters.get(1)), new N(parameters.get(2)))));
         } else if (command.startsWith("u.moveToUnit") || command.startsWith("u.c3")) {
             s = new S_LS(new C_LS(new moveToUnit_LS(new TargetPlayer(parameters.get(0)), new OpponentPolicy(parameters.get(1)))));
+        } else if (command.startsWith("u.attackIfInRange")  || command.startsWith("u.idle") || command.startsWith("u.c6")) {
+            s = new S_LS(new C_LS(new Idle_LS()));
         } else if (command.startsWith("u.attack") || command.startsWith("u.c4")) {
             s = new S_LS(new C_LS(new Attack_LS(new OpponentPolicy(parameters.get(0)))));
         } else if (command.startsWith("u.harvest") || command.startsWith("u.c5")) {
             s = new S_LS(new C_LS(new Harvest_LS(new N(parameters.get(0)))));
-        } else if (command.startsWith("u.attackIfInRange")  || command.startsWith("u.idle") || command.startsWith("u.c6")) {
-            s = new S_LS(new C_LS(new Idle_LS()));
         } else if (command.startsWith("u.moveAway") || command.startsWith("u.c7")) {
             s = new S_LS(new C_LS(new MoveAway_LS()));
         } else if (command.startsWith("empty")) {
@@ -284,273 +117,355 @@ public class ASTCreatorForComplexDSL {
         return s;
     }
 
-    public static void iterateSegments(Segment2 segment) {
-        // create a new List to hold the commands in the current segment
-        List<String> commands = new ArrayList<>();
+    public static List<Object> getParenthesisElements(String expression) {
+        // Create a stack to store the curly braces and elements inside them
+        Stack<List<Object>> stack = new Stack<>();
+        // Current list to capture the elements inside the current pair of curly braces
+        List<Object> currentList = new ArrayList<>();
 
-        // If the segment is empty, return
-        if (segment.segmentContent.isEmpty()) {
-            return;
-        }
-
-        // If the segment has contents
-        for (Object obj : segment.segmentContent) {
-            if (obj instanceof Command2) {
-                // If the object is a command, add it to the list of commands
-                commands.add(((Command2) obj).command);
-            } else if (obj instanceof Segment2) {
-                // If the object is a segment, recursively iterate over its contents
-                iterateSegments((Segment2) obj);
-            }
-        }
-
-//    // Print the commands in the current segment after all nested segments
-//    for (String command : commands) {
-//      System.out.println(command);
-//    }
-    }
-
-
-
-    public static String getBooleanCondition (String expr, int i) { // TODO: bracket na thaka case, first letter uppercase case
-        StringBuilder condition = new StringBuilder();
-        int j = i;
-
-        while (expr.charAt(j) != '\n') {
-            j--;
-            if (j == 0)
-                break;
-        }
-
-        String ifStatement = expr.substring(j, i);
-        if ((ifStatement.charAt(ifStatement.lastIndexOf(')')-1)) != ')') {
-            ifStatement = ifStatement.substring(0, ifStatement.lastIndexOf(')')) + "()" + ifStatement.substring(ifStatement.lastIndexOf(')'));
-        }
-//    System.out.println("If Statement: " + ifStatement);
-
-        Pattern pattern = Pattern.compile("(?<=if\\(|\\.)\\w+\\(.*?\\)");
-        Matcher matcher = pattern.matcher(ifStatement);
-
-        if (matcher.find()) {
-//      System.out.println(matcher.group());
-            String condt = matcher.group();
-            return Character.toLowerCase(condt.charAt(0)) + condt.substring(1);
-        } else {
-            return null;
-        }
-    }
-
-    public static String getBlockName(String expr, int i) {
-        int j = i;
-        while (expr.charAt(j) != '\n') {
-            j--;
-            if (j == 0)
-                break;
-        }
-
-        if (expr.substring(j, i).contains("for")) {
-            return "for";
-        } else if (expr.substring(j, i).contains("if")) {
-            return "if";
-        } else if (expr.substring(j, i).contains("else")) {
-            return "else";
-        }
-
-        return "";
-    }
-
-    public static boolean isElseBlock (String expr, int i) {
-        int j = i;
-
-        while (expr.charAt(j) != '\n') {
-            j++;
-            if (j == expr.length() - 1)
-                break;
-        }
-
-        if (expr.substring(i, j).contains("else")) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public static S_LS createAST(String expr) {
-        Stack<Segment2> stack = new Stack<>();
-        int commandStart = 0;
-        Segment2 segments = new Segment2("strategy");
-        S_LS finalS = new S_LS();
-        S_LS elseS = null;  // null if no else segment
-        List<S_LS> allSegments = new ArrayList<S_LS>(); // A new list to hold all outermost segments
-        boolean inComment = false;  // Flag to track if we're in a comment
-
-        for (int i = 0; i < expr.length(); i++) {
-            if (inComment) {
-                if (expr.charAt(i) == '\n') {
-                    inComment = false;
-                    commandStart = i + 1;
-                }
-                continue;
-            }
-
-            if (i < expr.length() - 1 && expr.charAt(i) == '/' && expr.charAt(i + 1) == '/') {
-                inComment = true;
-                continue;
-            }
-
-            if (expr.charAt(i) == '{') {
-                if (getBlockName(expr, i).equals("if")) {
-                    Segment2 newSegment = new Segment2("if");
-                    commandStart = i + 1;
-                    String condition = getBooleanCondition(expr, i);
-//          System.out.println(">>>>>>>>>>>>>>>>>>" + condition + "<<<<<<<<<<<<<<<<<<<");
-                    newSegment.b = createBooleanNode(condition);
-
-                    stack.push(newSegment);
-                } else if (getBlockName(expr, i).equals("else")) {
-//                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-                    stack.push(new Segment2("else"));
-                    commandStart = i + 1;
-                } else if (getBlockName(expr, i).equals("for")) {
-                    stack.push(new Segment2("for"));
-                    commandStart = i + 1;
-                }
-            } else if (expr.charAt(i) == '}') {
-                S_LS prevS;
-
-                if ((i+6 < expr.length()) && (isElseBlock(expr, i))) {
-                    int startIdx, endIdx = 0, curlyBraceStartIdx = 0, curlyBraceEndIdx;
-                    int k = i;
-                    int curlyBraceCount = 0;
-                    while (expr.charAt(k) != 'e') {
-                        k++;
-                    }
-                    startIdx = k;
-
-                    for (int j = startIdx; j < expr.length(); j++) {
-                        if (expr.charAt(j) == '{') {
-                            curlyBraceCount++;
-                            curlyBraceStartIdx = j;
-                            break;
-                        }
-                    }
-
-                    for (int j = curlyBraceStartIdx + 1; j < expr.length(); j++) {
-                        if (expr.charAt(j) == '{') {
-                            curlyBraceCount++;
-                        } else if (expr.charAt(j) == '}') {
-                            curlyBraceCount--;
-                        }
-
-                        if (curlyBraceCount == 0) {
-                            curlyBraceEndIdx = j + 1;
-                            endIdx = curlyBraceEndIdx;
-                            break;
-                        }
-                    }
-
-                    String elseExpr = expr.substring(startIdx, endIdx);
-//                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + elseExpr);
-                    elseS = createAST(elseExpr);
-                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                    System.out.println(elseS.translateIndentation(1));
-                }
-
+        // Loop through each character in the expression
+        for (char ch : expression.toCharArray()) {
+            if (ch == '{') {
+                // Push the current list onto the stack and start a new list
+                stack.push(currentList);
+                currentList = new ArrayList<>();
+            } else if (ch == '}') {
+                // When encountering a closing curly brace, finalize the current list
+                // If stack is empty, it means there is no matching opening curly brace (unbalanced)
+                List<Object> tmpCurrentList = currentList;
+                currentList = stack.isEmpty() ? new ArrayList<>() : stack.pop();
+                currentList.add(tmpCurrentList); // Add the nested list to the parent list
+            } else if (ch == '(' || ch == '[') {
+                // Only check balance, no new list creation
                 if (!stack.isEmpty()) {
-                    String command = expr.substring(commandStart, i).replaceAll("\\n\\s+", "\n").trim();
-                    if (!command.isEmpty()) {
-                        for (String cmd : command.split("\n")) {
-                            stack.peek().add(new Command2(cmd));
+                    currentList.add(String.valueOf(ch));
+                }
+            } else if (ch == ')' || ch == ']') {
+                // Only check balance, no new list creation
+                if (!stack.isEmpty()) {
+                    currentList.add(String.valueOf(ch));
+                }
+            } else if (ch == '\n') {
+                // Capture newline characters to the current list
+                currentList.add("\\n");
+            } else if (!Character.isWhitespace(ch) || ch == ' ') {
+                // Capture non-whitespace characters to the current list
+                currentList.add(Character.toString(ch));
+            }
+        }
+
+        // If the stack isn't empty, it means there are unmatched opening curly braces
+        if (!stack.isEmpty()) {
+            System.out.println("Unbalanced parentheses");
+            return Collections.emptyList();
+        }
+
+        return currentList;
+    }
+
+    // Function to combine characters into strings inside the nested list
+    public static List<Object> combineCharacters(List<Object> list) {
+        List<Object> result = new ArrayList<>();
+        StringBuilder currentString = new StringBuilder();
+
+        for (Object obj : list) {
+            if (obj instanceof String) {
+                String str = (String) obj;
+                if (str.equals("\\n")) {
+                    if (currentString.length() > 0) {
+                        result.add(currentString.toString());
+                        currentString = new StringBuilder();
+                    }
+                    result.add(str);
+                } else {
+                    currentString.append(str);
+                }
+            } else if (obj instanceof List<?>) {
+                if (currentString.length() > 0) {
+                    result.add(currentString.toString());
+                    currentString = new StringBuilder();
+                }
+                result.add(combineCharacters((List<Object>) obj));
+            }
+        }
+
+        if (currentString.length() > 0) {
+            result.add(currentString.toString());
+        }
+
+        return result;
+    }
+
+    // Function to remove all '\n' occurrences from the combined list
+    public static List<Object> removeNewLines(List<Object> list) {
+        List<Object> result = new ArrayList<>();
+
+        for (Object obj : list) {
+            if (obj instanceof String) {
+                if (!obj.equals("\\n")) {
+                    result.add(obj);
+                }
+            } else if (obj instanceof List<?>) {
+                result.add(removeNewLines((List<Object>) obj));
+            }
+        }
+
+        return result;
+    }
+
+    // Function to strip extra spaces and remove empty elements from each element in the nested list
+    public static List<Object> stripExtraSpacesAndRemoveEmpty(List<Object> list) {
+        List<Object> result = new ArrayList<>();
+
+        for (Object obj : list) {
+            if (obj instanceof String) {
+                String trimmedStr = ((String) obj).trim();
+                if (!trimmedStr.isEmpty()) {
+                    result.add(trimmedStr);
+                }
+            } else if (obj instanceof List<?>) {
+                List<Object> nestedResult = stripExtraSpacesAndRemoveEmpty((List<Object>) obj);
+                if (!nestedResult.isEmpty()) {
+                    result.add(nestedResult);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    // Function to print lists recursively: innermost list first, outermost last
+    public static void createAST(List<Object> list, int level) {
+        boolean hasList = false;
+        boolean hasString = false;
+
+        System.out.println(list);
+
+        for (Object obj : list) {
+            if (obj instanceof List<?>) {
+                hasList = true;
+            } else if (obj instanceof String) {
+                hasString = true;
+            }
+        }
+        if (hasString && hasList) {
+//            System.out.println("Has both");
+            List<String> keywords = new ArrayList<String>();
+
+            for (Object obj : list) {
+                if (obj instanceof String) {
+                    keywords.add((String) obj);
+                }
+            }
+
+            for (String keyword : keywords) {
+                if ((keyword != null) && keyword.contains("for")) {
+//                    System.out.println("Has For Loop");
+                    For_S_LS forS = new For_S_LS(null);
+                    if (currentNode instanceof S_LS) {
+                        ((S_LS) currentNode).setChild(forS);
+                        currentNode = ((S_LS) currentNode).getChild();
+                    }
+                } else if ((keyword != null) && keyword.contains("if")) {
+                    String condition = getBooleanCondition(keyword);
+//                    System.out.println("Condition: " + condition);
+                    S_LS parentS = new S_LS();
+                    if (list.size() > 2) {
+                        if ((list.get(2) instanceof String) && ((String) list.get(2)).contains("else")) {
+//                            System.out.println("Has If-Else block");
+                            If_B_then_S_else_S_LS ifThenElse = new If_B_then_S_else_S_LS();
+                            ifThenElse.setB(createBooleanNode(condition));
+                            parentS.setChild(ifThenElse);
                         }
+                    } else {
+//                        System.out.println("Has If block");
+                        If_B_then_S_LS ifThen = new If_B_then_S_LS();
+                        ifThen.setB(createBooleanNode(condition));
+                        parentS.setChild(ifThen);
                     }
 
-                    Segment2 finishedSegment = stack.pop();
-                    List<S_LS> listOfSegments = new ArrayList<S_LS>();
-//          System.out.println("-------" + finishedSegment.name + "--------");
+                    if (currentNode instanceof For_S_LS) {
+                        ((For_S_LS) currentNode).setChild(parentS);
+                        currentNode = ((For_S_LS) currentNode).getChild();
+                    }
+                    if (currentNode instanceof S_LS) {
+                        currentNode = ((S_LS) currentNode).getChild();
+                    }
+                    if (currentNode instanceof If_B_then_S_LS) {
+                        ((If_B_then_S_LS) currentNode).setS(parentS);
+                        currentNode = ((If_B_then_S_LS) currentNode).getS();
+                    }
+
+//                    System.out.println(currentNode.getClass());
+                }
+            }
+        } else if (hasString && !hasList) {
+//            System.out.println("Has only string");
+            S_LS parentS = new S_LS();
+            List <S_LS> commandList = new ArrayList<S_LS>();
+
+            for (Object obj : list) {
+                List<String> parameters = extractContentInBrackets((String) obj);
+//                System.out.println("Parameters: " + parameters);
+                S_LS commandS = createCommandNode((String) obj);
+                commandList.add(commandS);
+            }
+
+            parentS = commandList.get(0);
+            if (commandList.size() > 1) {
+                for (int i = 1; i < commandList.size(); i++) {
+                    parentS = new S_LS(new S_S_LS(parentS, commandList.get(i)));
+                }
+            }
+            if (currentNode instanceof For_S_LS) {
+                ((For_S_LS) currentNode).setChild(parentS);
+                currentNode = ((For_S_LS) currentNode).getChild();
+//                System.out.println(((S_LS) currentNode).translateIndentation(1));
+            }
+            if (currentNode instanceof If_B_then_S_LS) {
+                ((If_B_then_S_LS) currentNode).setS(parentS);
+                currentNode = ((If_B_then_S_LS) currentNode).getS();
+            }
+            if (currentNode instanceof S_LS) {
+                ((S_LS) currentNode).setChild(parentS);
+                currentNode = ((S_LS) currentNode).getChild();
+//                System.out.println(((S_LS) currentNode).translateIndentation(1));
+            }
+
+//            System.out.println(parentS.translateIndentation(1));
+        } else if (!hasString && hasList){
+//            System.out.println("Has only List");
+        }
+
+        for (Object obj : list) {
+            if (obj instanceof List<?>) {
+                createAST((List<Object>) obj, level + 1);
+            }
+        }
+
+        // Print the current list after all nested lists are printed
+//        System.out.print("{");
+//        S_LS S = null;
+//        for (Object obj : list) {
+//            if (obj instanceof List<?>) {
+//                System.out.print("Level" + level + "S");
+//            } else {
+//                System.out.print(level + ":" +obj);
 //
-//          for (Object obj : finishedSegment.segmentContent) {
-//            System.out.println(obj);
-//          }
-//          System.out.println();
+//                if (obj.equals("u.harvest(2)")) {
+//                    S = new S_LS(new C_LS(new Harvest_LS(new N("2"))));
+//                } else if (obj.equals("u.attack(Closest)")) {
+//                    S = new S_LS(new C_LS(new Attack_LS(new OpponentPolicy("Closest"))));
+//                }
+//                if (S != null) {
+//                    ListOfS.add(S);
+//                }
+//            }
+//        }
+//        System.out.print("}");
+    }
 
-                    for (Object obj : finishedSegment.segmentContent) {
-                        S_LS s = new S_LS();
-                        if (obj instanceof Command2) { // TODO: Might need to fix later
-                            String cmd = obj.toString().substring(0, 2) + Character.toLowerCase(obj.toString().charAt(2)) + obj.toString().substring(3);
-//              System.out.println(">>>>>>>>>" + cmd + "<<<<<<<<<");
-                            s = createCommandNode(cmd);
-                        } else if (obj instanceof Segment2 innerSegment) {
-                            s = ((Segment2) obj).s;
-                        }
-                        listOfSegments.add(s);
-                    }
+    public static void main(String[] args) {
+        // Test case
+        String testCase1 = "for(Unit u) {\n" +
+                "  if(u.canHarvest()) {\n" +
+                "    u.harvest(2)\n" +
+                "    u.attack(Weakest)\n" +
+                "  }\n" +
+                "else {\n" +
+                "    u.attack(Closest)\n" +
+                "  }\n" +
+                "}";
 
-                    prevS = listOfSegments.get(0);
+        String testCase2 = "for(Unit u) {\n" +
+                "        if(u.hasNumberOfUnits(Worker, 0)) {\n" +
+                "            u.train(Worker, Down, 1)\n" +
+                "        } else {\n" +
+                "            if(u.hasLessNumberOfUnits(Worker, 5)) {\n" +
+                "                u.train(Worker, Down, 1)\n" +
+                "            }\n" +
+                "        }\n" +
+                "}";
 
-                    if (listOfSegments.size() > 1) {
-                        for (int j = 1; j < listOfSegments.size(); j++) {
-                            prevS = new S_LS(new S_S_LS(prevS, listOfSegments.get(j)));
-                        }
-                    }
+        String testCase3 = "for(Unit u) {\n" +
+                "if(u.hasNumberOfUnits(Worker, 0)) {\n" +
+                "            u.train(Worker, Down, 1)\n" +
+                "            u.harvest(3)\n" +
+                "            if(u.canHarvest()) {\n" +
+                "               u.harvest(2)\n" +
+                "               u.attack(Weakest)\n" +
+                "            }\n" +
+                "        }\n" +
+                "}";
 
-                    if (finishedSegment.name.equals("for")) {
-                        finalS = new S_LS(new For_S_LS(prevS));
-                        finishedSegment.s = finalS;
-                    } else if (finishedSegment.name.equals("if")) {
-                        if (elseS == null) {
-                            System.out.println("44444444444444444444444444444444444444444");
-                            finalS = new S_LS(new If_B_then_S_LS(finishedSegment.b, prevS));
-                        } else {
-                            System.out.println("111111111111111111111111111111111111111111");
-                            finalS = new S_LS(new If_B_then_S_else_S_LS(finishedSegment.b, prevS, elseS));
-                        }
-                        finishedSegment.s = finalS;
-                        for (Object obj : finishedSegment.segmentContent) {
-                    System.out.println(obj);
-                  }
-                    } else if (finishedSegment.name.equals("else") && elseS == null) {
-                        System.out.println("22222222222222222222222222222222222222");
-                        finalS = prevS;
-                        finishedSegment.s = finalS;
-                    } else {
-                        System.out.println("33333333333333333333333333333333333333");
-                        finishedSegment.s = new S_LS(new Empty_LS());
-//                        finishedSegment.s = finalS;
-//            System.out.println(finishedSegment.s.getChild().getName());
-                    }
+        String testCase4 = "for(Unit u) {\n" +
+                "if(u.hasNumberOfUnits(Worker, 0)) {\n" +
+                "            if(u.canHarvest()) {\n" +
+                "            u.train(Worker, Down, 1)\n" +
+                "            u.harvest(3)\n" +
+                "               u.harvest(2)\n" +
+                "               u.attack(Weakest)\n" +
+                "            }\n" +
+                "        }\n" +
+                "}";
 
-                    if (!stack.isEmpty()) {
-                        stack.peek().add(finishedSegment);
-                        commandStart = i + 1;
-                    } else {
-                        segments.add(finishedSegment);
-                        allSegments.add(finalS); // When we finish a top level segment, add it to our list of allSegments
-                    }
-                }
-            } else if (expr.charAt(i) == '\n') {
-                String command = expr.substring(commandStart, i).trim();
-                if (!command.isEmpty() && !stack.isEmpty()) {
-                    stack.peek().add(new Command2(command));
-                }
-                commandStart = i + 1;
+        String testCase5 = "for(Unit u) {\n" +
+                "    if(u.hasNumberOfWorkersHarvesting(5)) {\n" +
+                "        if(u.hasLessNumberOfUnits(Worker, 10)) {\n" +
+                "            if(u.canHarvest()) {\n" +
+                "                u.build(Worker, Right, 1);\n" +
+                "                u.attack(Weakest)\n" +
+                "            }\n" +
+                "        }\n" +
+                "    }\n" +
+                "}";
+
+        List<Object> result = getParenthesisElements(testCase5);
+
+        // Print the nested list structure capturing all the elements inside each curly brace including newlines
+//        System.out.println("Elements inside parentheses: " + result);
+//        printNestedList(result, 0);
+//        System.out.println();
+
+        // Combine characters within each list based on constraints
+        List<Object> combinedResult = combineCharacters(result);
+//        System.out.println("Combined elements inside parentheses: " + combinedResult);
+//        printNestedList(combinedResult, 0);
+//        System.out.println();
+
+        // Remove all occurrences of '\n' from the combined list
+        List<Object> finalResult = removeNewLines(combinedResult);
+//        System.out.println("Final elements inside parentheses without '\\n': " + finalResult);
+//        printNestedList(finalResult, 0);
+//        System.out.println();
+
+        // Strip extra spaces from each element in the list 'finalResult' and remove empty elements
+        List<Object> strippedResult = stripExtraSpacesAndRemoveEmpty(finalResult);
+//        System.out.println("Final elements inside parentheses without '\\n' and extra spaces stripped: " + strippedResult);
+//        printNestedList(strippedResult, 0);
+//        System.out.println();
+
+        // Print lists recursively
+//        System.out.println("Recursive print of nested lists (innermost first):");
+        createAST(strippedResult, 0);
+//        System.out.println();
+//        for (S_LS S : ListOfS) {
+//            System.out.println(S.translateIndentation(1));
+//        }
+        System.out.println("Compiled Program:");
+        System.out.println(AST.translateIndentation(1));
+    }
+
+    // Helper function to print nested lists
+    public static void printNestedList(List<Object> list, int level) {
+        for (Object obj : list) {
+            if (obj instanceof List<?>) {
+                System.out.print("{");
+                printNestedList((List<Object>) obj, level + 1);
+                System.out.print("}");
+            } else {
+                System.out.print(obj);
             }
         }
-
-        if (inComment && commandStart < expr.length() - 1) {
-            String command = expr.substring(commandStart).trim();
-            if (!command.isEmpty() && !stack.isEmpty()) {
-                stack.peek().add(new Command2(command));
-            }
-        }
-
-        S_LS AST = allSegments.get(0);
-
-        if (allSegments.size() > 1) {
-            for (int i = 1; i < allSegments.size(); i++) {
-                AST = new S_LS(new S_S_LS(AST, allSegments.get(i)));
-            }
-        }
-
-        return AST;
     }
 }

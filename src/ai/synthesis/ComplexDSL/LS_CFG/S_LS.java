@@ -1,6 +1,7 @@
 package ai.synthesis.ComplexDSL.LS_CFG;
 
 import ai.synthesis.ComplexDSL.Synthesis_Base.CFG.ChildS;
+import ai.synthesis.ComplexDSL.Synthesis_Base.CFG.Node;
 import ai.synthesis.ComplexDSL.Synthesis_Base.CFG.S;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class S_LS extends S implements Node_LS, NoTerminal_LS {
 		super();
 	}
 
-	public S_LS(ChildS child) {
+	public S_LS(Node child) {
 		super(child);
 		// TODO Auto-generated constructor stub
 	}
